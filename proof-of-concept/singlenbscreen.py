@@ -17,7 +17,7 @@ def keyPress():
 
 		if c == '\x51' or c == '\x71':
 			return 0
-		
+
 		if c == '\x57' or c == '\x77':
 			return 1
 
@@ -25,12 +25,12 @@ def keyPress():
 	return 2
 
 def gameLoop(disp):
-	old_settings = termios.tcgetattr(sys.stdin)
+	old_settings = termios.tcgetattr(sys.stdin) # global-ish
 	try:
 		tty.setcbreak(sys.stdin.fileno())
 
 		while 1:
-			termios.tcflush(sys.stdin, termios.TCIOFLUSH)
+			termios.tcflush(sys.stdin, termios.TCIOFLUSH) #clearbuffer
 			print(disp)
 			time.sleep(0.1)
 			sp.call('clear', shell=True)
@@ -41,7 +41,7 @@ def gameLoop(disp):
 			elif op == 1:
 				disp += 1
 	finally:
-		termios.tcsetattr(sys.stdin, termios.TCSADRAIN, old_settings)
+		termios.tcsetattr(sys.stdin, termios.TCSADRAIN, old_settings) #reset
 
 def main():
 	disp = np.zeros((10,10))
