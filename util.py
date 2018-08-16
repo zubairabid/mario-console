@@ -6,7 +6,16 @@ import termios
 import subprocess as sp
 
 def clear():
+    '''
+    function to clear the terminal screen
+    '''
     sp.call('clear', shell=True)
+
+
+def keypress(c):
+    if c == '\x51' or c == '\x71':
+        return -1
+
 
 class NBInput:
     '''
