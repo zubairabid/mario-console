@@ -9,7 +9,7 @@ class Screen:
         '''
 
         # Set up screen. Contains a display and a buffer
-        self.scr = np.array([[Generic]*(dim_j*2)]*dim_i)
+        self.scr = np.array([[Generic()]*(dim_j*2)]*dim_i)
 
         self.dim_i = dim_i
         self.dim_j = dim_j
@@ -21,3 +21,16 @@ class Screen:
             for j in range(self.scroll[0], self.scroll[1]):
                 print(self.scr[i, j].__str__(), end='')
             print()
+
+    def update(self, mario):
+        # Update background
+
+        # Update interactible
+
+        # Update Mario
+        self.scr[mario.row, mario.col] = mario.image[mario.row, 0]
+        self.scr[mario.row, mario.col + 1] = mario.image[mario.row, 1]
+        self.scr[mario.row - 1, mario.col] = mario.image[mario.row - 1, 0]
+        self.scr[mario.row - 1, mario.col + 1] = mario.image[mario.row - 1, 1]
+        self.scr[mario.row - 2, mario.col] = mario.image[mario.row - 2, 0]
+        self.scr[mario.row - 2, mario.col + 1] = mario.image[mario.row - 2, 1]

@@ -20,6 +20,9 @@ class Person(Generic):
         self.row = 0
         self.col = 0
 
+    def __str__(self):
+        return 'I'
+
     def getLocation(self):
         return (self.row, self.col)
 
@@ -32,3 +35,30 @@ class Thing(Generic):
 
 class Back(Generic):
     pass
+
+class Mario(Person):
+    '''
+    Defines the player object
+    '''
+    def __init__(self):
+        super().__init__()
+
+        self.row = 30 # change hardcode
+        self.col = 16 # change hardcode
+
+        self.width = 2
+        self.height = 3
+
+        self.image = [['.', 'o'],
+                    [']', '['],
+                    ['|', '|']]
+
+    def move(self, direction):
+        if direction == -1:
+            self.col -= 1
+        elif direction == 1:
+            self.col += 1
+
+    def setSize(self, w, h):
+        self.width = w
+        self.height = h

@@ -36,24 +36,30 @@ if __name__ == "__main__":
         # the screen used is a property of the game object
         game = Game(level, 200) # un-hardcode time after
 
-        while 1:
+        while game.getTRemain() > 0:
+
+            frame = game.getTRemain()
             clear()
 
-            # clear the input buffer
-            keys.flush()
-
             # repaint screen
+            game.headline()
             game.screen.render()
-            
+
             # poll for input
-            # if keys.kbHit(): Some bug rn
-            op = keys.getCh()
+            op=''
+            if keys.kbHit():
+                op = keys.getCh()
 
             # process input
             if(keypress(op) == -1):
                 break
 
-            time.sleep(0.1)
+            # clear the input buffer
+            keys.flush()
 
+            while(frame - game.getTRemain() < 0.2):
+                # Maintains some sort of framerate
+                continue
     finally:
+        # Switch back to the original terminal state
         keys.orTerm()
