@@ -2,11 +2,11 @@ class Generic:
     '''
     Every object in the game inherits from here.
     '''
-    def __repr__():
+    def __repr__(self):
         return 'Generic object for everything'
 
-    def __str__():
-        return '_'
+    def __str__(self):
+        return '.'
 
 
 class Person(Generic):
@@ -45,19 +45,20 @@ class Mario(Person):
 
         self.row = 30 # change hardcode
         self.col = 16 # change hardcode
-
-        self.width = 2
-        self.height = 3
-
-        self.image = [['.', 'o'],
-                    [']', '['],
-                    ['|', '|']]
+        #
+        # self.width = 2
+        # self.height = 3
+        #
+        # self.image = [['.', 'o'],
+        #             [']', '['],
+        #             ['|', '|']]
 
     def move(self, direction):
         if direction == -1:
             self.col -= 1
         elif direction == 1:
             self.col += 1
+        
 
     def setSize(self, w, h):
         self.width = w

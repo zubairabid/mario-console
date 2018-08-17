@@ -8,8 +8,8 @@ class Game:
         self.screen = Screen(36, 96)
         # if level == 0:
 
-        player = Mario()
-        self.screen.scr[player.row, player.col] = player
+        self.player = Mario()
+        self.screen.scr[self.player.row, self.player.col] = self.player
 
         self.stime = timer()
         self.etime = self.stime + time

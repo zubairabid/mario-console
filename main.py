@@ -42,6 +42,7 @@ if __name__ == "__main__":
             clear()
 
             # repaint screen
+            game.screen.update(game.player)
             game.headline()
             game.screen.render()
 
@@ -51,13 +52,18 @@ if __name__ == "__main__":
                 op = keys.getCh()
 
             # process input
-            if(keypress(op) == -1):
+            res = keypress(op)
+            if res == -1:
                 break
+            elif res == 1:
+                game.player.move(1)
+            elif res == 2:
+                game.player.move(-1)
 
             # clear the input buffer
             keys.flush()
 
-            while(frame - game.getTRemain() < 0.2):
+            while(frame - game.getTRemain() < 0.1):
                 # Maintains some sort of framerate
                 continue
     finally:

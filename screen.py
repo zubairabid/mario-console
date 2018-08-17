@@ -28,9 +28,22 @@ class Screen:
         # Update interactible
 
         # Update Mario
-        self.scr[mario.row, mario.col] = mario.image[mario.row, 0]
-        self.scr[mario.row, mario.col + 1] = mario.image[mario.row, 1]
-        self.scr[mario.row - 1, mario.col] = mario.image[mario.row - 1, 0]
-        self.scr[mario.row - 1, mario.col + 1] = mario.image[mario.row - 1, 1]
-        self.scr[mario.row - 2, mario.col] = mario.image[mario.row - 2, 0]
-        self.scr[mario.row - 2, mario.col + 1] = mario.image[mario.row - 2, 1]
+        if self.scr[mario.row, mario.col - 1] == mario:
+            self.scr[mario.row, mario.col - 1] = Generic()
+
+        if self.scr[mario.row, mario.col + 1] == mario:
+            self.scr[mario.row, mario.col + 1] = Generic()
+
+        if self.scr[mario.row-1, mario.col] == mario:
+            self.scr[mario.row-1, mario.col] = Generic()
+
+        if self.scr[mario.row+1, mario.col] == mario:
+            self.scr[mario.row+1, mario.col] = Generic()
+
+
+        self.scr[mario.row, mario.col] = mario
+        # self.scr[mario.row, mario.col + 1] = mario.image[mario.row, 1]
+        # self.scr[mario.row - 1, mario.col] = mario.image[mario.row - 1, 0]
+        # self.scr[mario.row - 1, mario.col + 1] = mario.image[mario.row - 1, 1]
+        # self.scr[mario.row - 2, mario.col] = mario.image[mario.row - 2, 0]
+        # self.scr[mario.row - 2, mario.col + 1] = mario.image[mario.row - 2, 1]
