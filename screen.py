@@ -53,8 +53,10 @@ class Screen:
                 if i[j] == 0:
                     char = Back.BLUE + ' '
                 if i[j] == 1:
+                    char = Back.WHITE + ' '
+                if i[j] == 5:
                     char = Back.RED + ' '
-                if i[j] == 2:
+                if i[j] == 6:
                     char = Back.MAGENTA + ' '
                 print(char, end='')
                 # print(self.gamestate.codes[i[j]].__str__(), end='')

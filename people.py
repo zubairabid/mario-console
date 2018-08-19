@@ -30,6 +30,22 @@ class Person(Generic):
         return (1,1)
 
     def collision(self, dir):
+        if dir == 1:
+            for i in range(self.i+1-self.getSize()[0],self.i+1):
+                if self.game.screen.map[i,self.j+self.getSize()[1]] >= 5:
+                    return True
+        elif dir == 2:
+            for i in range(self.i+1-self.getSize()[0],self.i+1):
+                if self.game.screen.map[i,self.j-2] >= 5:
+                    return True
+        elif dir == 3:
+            for j in range(self.j-1,self.j-1+self.getSize()[1]):
+                if self.game.screen.map[self.i-self.getSize()[0],j] >= 5:
+                    return True
+        elif dir == 4:
+            for j in range(self.j-1,self.j-1+self.getSize()[1]):
+                if self.game.screen.map[self.i+1,j] >= 5:
+                    return True
         return False
 
     def move(self, key):
@@ -79,10 +95,11 @@ class Person(Generic):
 
                 self.game.screen.add(backgrounds.Back(), del_i, del_i+1, f_j, t_j)
                 self.game.screen.add(self, add_i, add_i+1, f_j, t_j)
-
+            else:
+                self.jstate = 0
         else:
-            # if not self.collision(4): # down collison
-            if self.game.screen.map[self.i+1, self.j] == 0 and self.game.screen.map[self.i+1, self.j+1] == 0:
+            if not self.collision(4): # down collison
+            # if self.game.screen.map[self.i+1, self.j] == 0 and self.game.screen.map[self.i+1, self.j+1] == 0:
                 self.i += 1
 
                 t_j = self.j+1
@@ -101,7 +118,7 @@ class Mario(Person):
     def __init__(self, game):
         super().__init__(game, 31, 3)
 
-        self.code = 1
+        self.code = 5
 
     def getSize(self):
         return (2,2)

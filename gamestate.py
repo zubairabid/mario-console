@@ -1,6 +1,7 @@
 from screen import Screen
 from people import Mario
 from backgrounds import Back
+from backgrounds import Cloud
 from objects import Brick
 
 from time import monotonic as timer
@@ -15,8 +16,8 @@ class Game:
 
         self.player = Mario(self)
 
-        # 0: Generic, 1. Mario, 2. Brick
-        self.codes = [Back(), self.player, Brick()]
+        # 0: Back, 1: Cloud (Back) ...  5. Mario, 6. Brick
+        self.codes = [Back(), Cloud(), Back(), Back(), Back(), self.player, Brick()]
 
         self.screen.position(self.player)
 
@@ -33,7 +34,6 @@ class Game:
         if self.player.getLoc()[1] > self.screen.offset + 32:
             self.screen.offset += 1
 
-        # Update objects
         # Update enemies
         # Apply gravity
         self.player.vertical()

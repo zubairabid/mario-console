@@ -15,4 +15,4 @@ class Back(Generic):
 class Cloud(Back):
     def __init__(self):
         super().__init__()
-        self.code = 3
+        self.code = 1
