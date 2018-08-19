@@ -8,12 +8,17 @@ import select
 from gamestate import Game
 
 import time
+from colorama import init
 
 if __name__ == "__main__":
     '''
     game loop, environment setup, etc. Happens here
     '''
 
+    # setting up Colorama
+    init()
+
+    # sets up keyboard input
     keys = NBInput()
 
     ##########################
@@ -39,12 +44,9 @@ if __name__ == "__main__":
         while game.getTRemain() > 0:
 
             frame = game.getTRemain()
-            clear()
 
             # repaint screen
-            game.screen.update(game.player)
-            game.headline()
-            game.screen.render()
+            game.repaint()
 
             # poll for input
             op=''
@@ -55,17 +57,17 @@ if __name__ == "__main__":
             res = keypress(op)
             if res == -1:
                 break
-            elif res == 1:
-                game.player.move(1)
-            elif res == 2:
-                game.player.move(-1)
 
-            # clear the input buffer
+            game.changeState(op)
+
+            # Clear input buffer to prevent delayed response
             keys.flush()
 
+            # time.sleep(0.05)
             while(frame - game.getTRemain() < 0.1):
                 # Maintains some sort of framerate
                 continue
+
     finally:
         # Switch back to the original terminal state
         keys.orTerm()

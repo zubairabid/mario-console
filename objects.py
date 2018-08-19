@@ -1,3 +1,5 @@
+from colorama import Fore, Back, Style
+
 class Generic:
     '''
     Every object in the game inherits from here.
@@ -6,60 +8,40 @@ class Generic:
         return 'Generic object for everything'
 
     def __str__(self):
-        return '.'
+        return Back.BLUE + ' '
 
-
-class Person(Generic):
-    '''
-    Generic class for all living beings in the game
-    '''
     def __init__(self):
-        '''
-        Location is a default property of all "people"
-        '''
-        self.row = 0
-        self.col = 0
+        pass
 
-    def __str__(self):
-        return 'I'
+    def getSize(self):
+        pass
 
-    def getLocation(self):
-        return (self.row, self.col)
+    def getLoc(self):
+        pass
 
-    def setLocation(self, row_in, col_in):
-        self.row = row_in
-        self.col = col_in
+    def setLoc(self):
+        pass
+
 
 class Thing(Generic):
-    pass
+    def __repr__(self):
+        return 'Generic object for everything'
 
-class Back(Generic):
-    pass
+    def __str__(self):
+        return Back.MAGENTA + ' '
 
-class Mario(Person):
-    '''
-    Defines the player object
-    '''
     def __init__(self):
         super().__init__()
 
-        self.row = 30 # change hardcode
-        self.col = 16 # change hardcode
-        #
-        # self.width = 2
-        # self.height = 3
-        #
-        # self.image = [['.', 'o'],
-        #             [']', '['],
-        #             ['|', '|']]
 
-    def move(self, direction):
-        if direction == -1:
-            self.col -= 1
-        elif direction == 1:
-            self.col += 1
-        
+class Brick(Thing):
 
-    def setSize(self, w, h):
-        self.width = w
-        self.height = h
+    def __repr__(self):
+        return 'Generic object for everything'
+
+    def __str__(self):
+        return Back.MAGENTA + ' '
+
+    def __init__(self):
+        super().__init__()
+        self.code = 2
