@@ -58,6 +58,8 @@ class Screen:
                     char = Back.RED + ' '
                 if i[j] == 6:
                     char = Back.MAGENTA + ' '
+                if i[j] == 7:
+                    char = Back.CYAN + ' '
                 print(char, end='')
                 # print(self.gamestate.codes[i[j]].__str__(), end='')
             print(Style.RESET_ALL)

@@ -33,20 +33,20 @@ class Person(Generic):
         if dir == 1:
             for i in range(self.i+1-self.getSize()[0],self.i+1):
                 if self.game.screen.map[i,self.j+self.getSize()[1]] >= 5:
-                    return True
+                    return (True, self.game.screen.map[i,self.j+self.getSize()[1]])
         elif dir == 2:
             for i in range(self.i+1-self.getSize()[0],self.i+1):
                 if self.game.screen.map[i,self.j-2] >= 5:
-                    return True
+                    return (True, self.game.screen.map[i,self.j-2])
         elif dir == 3:
             for j in range(self.j-1,self.j-1+self.getSize()[1]):
                 if self.game.screen.map[self.i-self.getSize()[0],j] >= 5:
-                    return True
+                    return (True, self.game.screen.map[self.i-self.getSize()[0],j])
         elif dir == 4:
             for j in range(self.j-1,self.j-1+self.getSize()[1]):
                 if self.game.screen.map[self.i+1,j] >= 5:
-                    return True
-        return False
+                    return (True, self.game.screen.map[self.i+1,j])
+        return False, None
 
     def move(self, key):
         if key=='\x44' or key == '\x64': # d, go right
@@ -87,8 +87,8 @@ class Person(Generic):
 
                 self.i -= 1
 
-                t_j = self.j+1
-                f_j = self.j+1-self.getSize()[1]
+                t_j = self.j+self.getSize()[1]-1
+                f_j = self.j-1
 
                 del_i = self.i+1
                 add_i = self.i+1-self.getSize()[0]
@@ -102,8 +102,8 @@ class Person(Generic):
             # if self.game.screen.map[self.i+1, self.j] == 0 and self.game.screen.map[self.i+1, self.j+1] == 0:
                 self.i += 1
 
-                t_j = self.j+1
-                f_j = self.j+1-self.getSize()[1]
+                t_j = self.j+self.getSize()[1]-1
+                f_j = self.j-1
 
                 add_i = self.i+1
                 del_i = self.i+1-self.getSize()[0]
@@ -118,7 +118,25 @@ class Mario(Person):
     def __init__(self, game):
         super().__init__(game, 31, 3)
 
+
+        self.s_i = 2
+        self.s_j = 3
         self.code = 5
 
     def getSize(self):
-        return (2,2)
+        return (self.s_i, self.s_j)
+
+    def resize(self, size):
+        if size == 0: # small
+            self.s_i = 2
+        else:
+            # self.setSize(4, 3)
+            self.s_i = 4
+
+    def collision(self, dir):
+        contact = super().collision(dir)
+
+        if contact[1] == 7:
+            self.resize(1)
+
+        return contact[0]

@@ -15,12 +15,12 @@ def clear():
 def keypress(c):
     if c == '\x51' or c == '\x71':
         return -1
-
-    if c == '\x41' or c == '\x61':
-        return 2
-
-    if c == '\x44' or c == '\x64':
-        return 1
+    # 
+    # if c == '\x41' or c == '\x61':
+    #     return 2
+    #
+    # if c == '\x44' or c == '\x64':
+    #     return 1
 
 
 class NBInput:

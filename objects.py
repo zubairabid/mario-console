@@ -45,3 +45,11 @@ class Brick(Thing):
     def __init__(self):
         super().__init__()
         self.code = 6
+
+class PowerUp(Thing):
+
+    def __init__(self):
+        super.__init__()
+        self.code = 7
+
+     
