@@ -193,11 +193,11 @@ class Mario(Person):
     def resize(self, size):
         if size == 0: # small
             self.s_i = 3
-            self.game.screen.add(backgrounds.Back(), self.i-3, self.i-1, self.j-1, self.j+2)
+            self.game.screen.add(backgrounds.Back(), self.i-3, self.i-2, self.j-1, self.j+2)
             self.maxj = 7
         else: # enlargen
             self.s_i = 4
-            self.game.screen.add(self, self.i-3, self.i-1, self.j-1, self.j+2)
+            self.game.screen.add(self, self.i-3, self.i-2, self.j-1, self.j+2)
             self.maxj = 11
 
     def collision(self, dir):
@@ -205,10 +205,12 @@ class Mario(Person):
         Defines exactly how the Mario object will behave on collision
         beyond the regular generic Person functions
         '''
-        contact = super().collision(dir)
-        if contact:
 
+        contact = super().collision(dir)
+
+        if contact:
             obj = self.game.screen.map[contact[1][0], contact[1][1]]
+
             if obj == 7: # On collision with a powerup
                 self.resize(1)
                 self.game.erase(obj, dir, contact[1][0], contact[1][1])
@@ -216,14 +218,19 @@ class Mario(Person):
             if obj >= 20: # On collision with enemy
                 if dir == 4: # collision below
                     self.game.codes[obj].lives -= 1
-                    # pass # enemy ded
                 else:
-                    self.lives -= 1
-                    # pass # player ded
+                    if self.getSize()[0] == 4:
+                        self.resize(0)
+                    else:
+                        self.lives -= 1
+
+
+            if obj == 6 and dir == 3 and self.getSize()[0] == 4:
+                self.game.erase(obj, dir, contact[1][0], contact[1][1])
 
         return contact
 
-class Mushroom(Person):
+class Enemy(Person):
 
     def __init__(self, game, code, i, j):
         super().__init__(game)
@@ -239,28 +246,31 @@ class Mushroom(Person):
 
         self.code = code
 
-        self.offx = 10
-        self.maxx = 10
+        self.dir = 2
 
     def getSize(self):
         return (self.s_i, self.s_j)
 
     def move(self):
-        if self.offx > -self.maxx:
-            super().move(2)
-            self.offx -= 1
-        if self.offx == -self.maxx:
-            self.maxx = -self.maxx
-        if self.offx < -self.maxx:
-            super().move(1)
-            self.offx += 1
+        super().move(self.dir)
+        if self.collision(self.dir)[0]:
+            if self.dir == 1:
+                self.dir = 2
+            else:
+                self.dir = 1
 
     def collision(self, dir):
         contact = super().collision(dir)
+
         if contact:
+
             obj = self.game.screen.map[contact[1][0], contact[1][1]]
             if obj == 5:
-                self.game.codes[5].lives -= 1
+                if self.game.codes[5].getSize()[0] == 4:
+                    self.game.codes[5].resize(0)
+                else:
+                    self.game.codes[5].lives -= 1
+
         return contact
 
 # For the enemy class:

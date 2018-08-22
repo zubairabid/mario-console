@@ -44,10 +44,7 @@ if __name__ == "__main__":
         while lives > 0:
             game = Game(int(level), 200, lives) # un-hardcode time after
 
-            clear()
-            print("Level: " + str(level))
-            print("Lives left: " + str(lives))
-            print("Press any key to continue")
+            game.levelScreen(level, lives)
             keys.flush()
             keys.getCh()
 
@@ -91,8 +88,8 @@ if __name__ == "__main__":
             lives -= 1
 
     finally:
-        clear()
-        print("GAME OVER. Press any key to exit")
+        game.gameOver()
+
         keys.flush()
         keys.getCh()
         # Switch back to the original terminal state

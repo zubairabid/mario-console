@@ -1,9 +1,10 @@
 from screen import Screen
 from people import Mario
-from people import Mushroom
+from people import Enemy
 from backgrounds import Back
 from backgrounds import Cloud
 from objects import Brick
+from objects import PowerUp
 
 from util import clear
 
@@ -30,9 +31,9 @@ class Game:
 
         self.player = Mario(self, lives)
 
-        # 0: Back, 1: Cloud (Back) ...  5. Mario, 6. Brick
+        # 0: Back, 1: Cloud (Back) ...  5. Mario, 6. Brick, 7. PowerUp
         self.codes = [Back(), Cloud(), Back(), Back(), Back(), self.player, Brick()]
-        for temp in range(100): # Change later
+        for temp in range(1000): # Change later
             self.codes.append(None)
 
         self.screen.position(self.player)
@@ -88,7 +89,7 @@ class Game:
         if(random() < 0.01):
             lj = self.screen.offset + 90 + randrange(10)
             li = 1
-            mush = Mushroom(self, self.count, li, lj)
+            mush = Enemy(self, self.count, li, lj)
             self.screen.position(mush)
             self.codes[self.count] = mush
             self.count += 1
@@ -107,6 +108,9 @@ class Game:
             i = pi + 1
             j = pj
 
+        if i == 36:
+            return
+
         if self.screen.map[i,j] == obj:
             self.screen.add(Back(), i, i+1, j, j+1)
             for k in range(1,5):
@@ -119,6 +123,16 @@ class Game:
         clear()
         self.screen.render()
         self.headline()
+
+    def gameOver(self):
+        clear()
+        print("GAME OVER. Press any key to exit")
+
+    def levelScreen(self, level, lives):
+        clear()
+        print("Level: " + str(level))
+        print("Lives left: " + str(lives))
+        print("Press any key to continue")
 
     def getTRemain(self):
         return self.etime - timer()
