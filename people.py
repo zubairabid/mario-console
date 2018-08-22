@@ -27,6 +27,8 @@ class Person(Generic):
         self.jstate = 0
         # self.vspeed = 1
 
+        self.lives  = 1
+
     def __str__(self):
         return Back.RED + 'I'
 
@@ -173,17 +175,19 @@ class Mario(Person):
         self.jstate = 0
         self.maxj = 7
 
-        self.s_i = 2
+        self.s_i = 3
         self.s_j = 3
 
         self.code = 5
+
+        self.lives = 3
 
     def getSize(self):
         return (self.s_i, self.s_j)
 
     def resize(self, size):
         if size == 0: # small
-            self.s_i = 2
+            self.s_i = 3
             self.game.screen.add(backgrounds.Back(), self.i-3, self.i-1, self.j-1, self.j+2)
             self.maxj = 7
         else: # enlargen
@@ -202,13 +206,17 @@ class Mario(Person):
             obj = self.game.screen.map[contact[1][0], contact[1][1]]
             if obj == 7: # On collision with a powerup
                 self.resize(1)
-                self.game.delete(obj, dir, contact[1][0], contact[1][1])
+                self.game.erase(obj, dir, contact[1][0], contact[1][1])
 
             if obj >= 20: # On collision with enemy
-                
-                pass
+                if dir == 4: # collision below
+                    self.game.codes[obj].lives -= 1
+                    # pass # enemy ded
+                else:
+                    self.lives -= 1
+                    # pass # player ded
 
-        return contact[0], contact[1]
+        return contact
 
 class Mushroom(Person):
 
@@ -242,6 +250,13 @@ class Mushroom(Person):
             super().move(1)
             self.offx += 1
 
+    def collision(self, dir):
+        contact = super().collision(dir)
+        if contact:
+            obj = self.game.screen.map[contact[1][0], contact[1][1]]
+            if obj == 5:
+                self.game.codes[5].lives -= 1
+        return contact
 
 # For the enemy class:
 # keep a set size. This is important

@@ -43,6 +43,7 @@ class Game:
         # self.count - 20 indicates number of generic
         # enemies onscreen within any cycle
         self.count = 20
+        self.count_l = 20
 
     def changeState(self, keypress):
         '''
@@ -60,13 +61,20 @@ class Game:
         self.generateEnemy()
 
         # Apply gravity and movement
-        for enemy in range(20, self.count):
+        for enemy in range(self.count_l, self.count):
             self.codes[enemy].vertical()
             self.codes[enemy].move()
         self.player.vertical()
 
         # Check interactions
+        for enemy in range(self.count_l, self.count):
+            if self.codes[enemy].lives <= 0:
+                print("ENEMY DED")
+                self.erase(enemy, 1, self.codes[enemy].i, self.codes[enemy].j)
+                self.count_l += 1
 
+        if self.player.lives <= 0:
+            print('YOU SHOULD BE DEAD')
     def generateEnemy(self):
         '''
         Creates an enemy
@@ -80,7 +88,7 @@ class Game:
             self.codes[self.count] = mush
             self.count += 1
 
-    def delete(self, obj, dir, pi, pj):
+    def erase(self, obj, dir, pi, pj):
         if dir == 1:
             i = pi
             j = pj + 1
@@ -97,7 +105,10 @@ class Game:
         if self.screen.map[i,j] == obj:
             self.screen.add(Back(), i, i+1, j, j+1)
             for k in range(1,5):
-                self.delete(obj, k, i, j)
+                self.erase(obj, k, i, j)
+
+    def delete(self):
+        pass
 
     def repaint(self):
         clear()
@@ -115,3 +126,4 @@ class Game:
 
     def headline(self):
         print('TIME LEFT: ' + str(self.getTRemain()))
+        print('LIVES LEFT: ' + str(self.player.lives))
