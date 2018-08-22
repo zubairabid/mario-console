@@ -39,26 +39,31 @@ if __name__ == "__main__":
 
         # Start a new Game with level
         # the screen used is a property of the game object
-        game = Game(level, 200) # un-hardcode time after
+        game = Game(int(level), 200) # un-hardcode time after
 
+        # Game loop executes as time remains
         while game.getTRemain() > 0:
 
+            # frame stores the time remaining at the start of rendering
+            # a frame, so as to calculate how long actually rendering it
+            # took, and to maintain a framerate
             frame = game.getTRemain()
 
             # repaint screen
             game.repaint()
 
             # poll for input
-            op=''
+            input=''
             if keys.kbHit():
-                op = keys.getCh()
+                input = keys.getCh()
 
             # process input
-            res = keypress(op)
-            if res == -1:
+            cin = keypress(input)
+            if cin == -1:
                 break
 
-            game.changeState(op)
+            # run game mechanics for each cycle
+            game.changeState(cin)
 
             # Clear input buffer to prevent delayed response
             keys.flush()

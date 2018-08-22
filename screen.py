@@ -16,7 +16,7 @@ class Screen:
 
         # Set up map
         self.map = np.array([[0 for col in range(1000)] for row in range(dim_i)])
-        self.loadMap(0)
+        self.loadMap(level)
 
         # Set up screen. Contains a display and a buffer
         # self.scr = np.array([[0 for col in range(dim_j)] for row in range(dim_i)])
@@ -51,41 +51,18 @@ class Screen:
             for j in range(self.offset, self.offset + self.dim_j):
                 char = ''
                 if i[j] == 0:
-                    char = Back.BLUE + ' '
+                    char = Back.BLUE + Fore.BLACK + ' '
                 if i[j] == 1:
-                    char = Back.WHITE + ' '
+                    char = Back.WHITE + '0'
                 if i[j] == 5:
                     char = Back.RED + ' '
                 if i[j] == 6:
-                    char = Back.MAGENTA + ' '
+                    char = Back.GREEN + '.'
                 if i[j] == 7:
-                    char = Back.CYAN + ' '
+                    char = Back.CYAN + '*'
+
+                if i[j] >= 20:
+                    char = Back.BLACK + '^'
                 print(char, end='')
                 # print(self.gamestate.codes[i[j]].__str__(), end='')
             print(Style.RESET_ALL)
-
-    def update(self, mario):
-        # Update background
-        pass
-        # Update interactible
-
-        # Update Mario
-        # if self.scr[mario.row, mario.col - 1] == mario:
-        #     self.scr[mario.row, mario.col - 1] = Generic()
-        #
-        # if self.scr[mario.row, mario.col + 1] == mario:
-        #     self.scr[mario.row, mario.col + 1] = Generic()
-        #
-        # if self.scr[mario.row-1, mario.col] == mario:
-        #     self.scr[mario.row-1, mario.col] = Generic()
-        #
-        # if self.scr[mario.row+1, mario.col] == mario:
-        #     self.scr[mario.row+1, mario.col] = Generic()
-        #
-        #
-        # self.scr[mario.row, mario.col] = mario
-        # self.scr[mario.row, mario.col + 1] = mario.image[mario.row, 1]
-        # self.scr[mario.row - 1, mario.col] = mario.image[mario.row - 1, 0]
-        # self.scr[mario.row - 1, mario.col + 1] = mario.image[mario.row - 1, 1]
-        # self.scr[mario.row - 2, mario.col] = mario.image[mario.row - 2, 0]
-        # self.scr[mario.row - 2, mario.col + 1] = mario.image[mario.row - 2, 1]

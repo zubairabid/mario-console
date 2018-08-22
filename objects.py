@@ -16,6 +16,9 @@ class Generic:
     def getSize(self):
         pass
 
+    def setSize(self):
+        pass
+
     def getLoc(self):
         pass
 
@@ -51,5 +54,3 @@ class PowerUp(Thing):
     def __init__(self):
         super.__init__()
         self.code = 7
-
-     
