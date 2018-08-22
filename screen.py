@@ -15,7 +15,7 @@ class Screen:
         self.game = game
 
         # Set up map
-        self.map = np.array([[0 for col in range(500)] for row in range(dim_i)])
+        self.map = np.array([[0 for col in range(600)] for row in range(dim_i)])
         self.getMap(level)
         # self.randomMap()
 
@@ -43,7 +43,7 @@ class Screen:
             hst = component[1]
             hh = component[3]
             self.map[vst:vst + vh, hst:hst + hh] = component[4]
-            
+
     def render(self):
         for i in self.map:
             for j in range(self.offset, self.offset + self.dim_j):

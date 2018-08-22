@@ -10,6 +10,8 @@ from gamestate import Game
 import time
 from colorama import init
 
+import configs
+
 if __name__ == "__main__":
     '''
     game loop, environment setup, etc. Happens here
@@ -35,15 +37,18 @@ if __name__ == "__main__":
         keys.nbTerm()
 
         print("Choose level you want to play:\n0\t1\t2\t3")
-        level = keys.getCh()
+        level = int(keys.getCh())
 
         # Start a new Game with level
         # the screen used is a property of the game object
-        lives = 3
-        leave = 0
-        while lives > 0:
-            game = Game(int(level), 200, lives) # un-hardcode time after
+        lives = configs.MAX_LIFE
 
+        status = 0 # -1: quit, 1: level up=
+
+        while lives > 0:
+            game = Game(level, configs.STD_TIME, lives)
+
+            # Level screen
             game.levelScreen(level, lives)
             keys.flush()
             keys.getCh()
@@ -71,24 +76,30 @@ if __name__ == "__main__":
                     break
 
                 # run game mechanics for each cycle
-                if game.changeState(cin) == -1:
+                status = game.changeState(cin)
+                if status != 0:
                     break
 
                 # Clear input buffer to prevent delayed response
                 keys.flush()
 
-                # time.sleep(0.05)
-                # print(frame - game.getTRemain())
+                # Maintains some sort of framerate
                 while(frame - game.getTRemain() < 0.1):
-                    # Maintains some sort of framerate
                     continue
 
-            if leave == 1:
+            # Game quit
+            if status == -1:
                 break
+            # Level up
+            if status == 1:
+                status = 0
+                level += 1
+
+            # If here, death has happened.
             lives -= 1
 
     finally:
-        game.gameOver()
+        print("GAME OVER. Press any key to exit")
 
         keys.flush()
         keys.getCh()

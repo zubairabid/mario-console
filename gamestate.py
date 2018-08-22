@@ -43,7 +43,7 @@ class Game:
         self.stime = timer()
         self.etime = self.stime + time
 
-        # self.count - 20 indicates number of generic
+        # self.count - self.count_l indicates number of
         # enemies onscreen within any cycle
         self.count = 20
         self.count_l = 20
@@ -55,6 +55,7 @@ class Game:
         Calculates and applies changes within each cycle
         '''
 
+        # To check if life is lost within cycle
         l = self.player.lives
 
         # Apply mario movement
@@ -68,26 +69,37 @@ class Game:
         if self.level != 0:
             self.generateEnemy()
 
-        # Apply gravity and movement4
+        # Apply gravity and movement
+        # On powerup
         if self.codes[7] is not None:
             self.codes[7].vertical()
-            if random() < 0.5:
+            if (self.getTime()//1) % 2 == 0:
                 self.codes[7].move(1)
 
+        # On enemy
         for enemy in range(self.count_l, self.count):
-            self.codes[enemy].vertical()
-            self.codes[enemy].move()
+            if self.codes[enemy] is not None:
+                self.codes[enemy].vertical()
+                self.codes[enemy].move()
 
         self.player.vertical()
 
         # Check interactions
-        for enemy in range(self.count_l, self.count):
-            if self.codes[enemy].lives <= 0:
-                self.erase(enemy, 1, self.codes[enemy].i, self.codes[enemy].j)
-                self.count_l += 1
 
+        # Checks which enemy is alive and updates accordingly
+        for enemy in range(self.count_l, self.count):
+            if self.codes[enemy] is not None:
+                if self.codes[enemy].lives <= 0:
+                    self.erase(enemy, 1, self.codes[enemy].i, self.codes[enemy].j)
+                    self.count_l += 1
+
+        # Checks if player is alive and updates accordingly
         if self.player.lives < l:
             return -1
+
+        print(self.player.j)
+        if self.player.j >= 400:
+            return 1
 
         return 0
 
