@@ -15,8 +15,8 @@ class Screen:
         self.game = game
 
         # Set up map
-        self.map = np.array([[0 for col in range(1000)] for row in range(dim_i)])
-        self.loadMap(level)
+        self.map = np.array([[0 for col in range(500)] for row in range(dim_i)])
+        self.getMap(level)
         # self.randomMap()
 
         # Set up screen. Contains a display and a buffer
@@ -29,32 +29,21 @@ class Screen:
 
     def position(self, obj):
         size = obj.getSize()
-        print(str(type(obj.i)) + "\t" + str(type(size[0]))+ "\t" + str(type(obj.code)))
         self.map[(obj.i+1-size[0]):(obj.i+1), (obj.j-1):(obj.j-1+size[1])] = obj.code
         # self.map[30:32, 1:3] = obj.code
 
     def add(self, obj, from_i, to_i, from_j, to_j):
         self.map[from_i:to_i, from_j:to_j] = obj.code
 
-    def randomMap(self):
-        print('Loading a random map')
-        for component in maps.random():
+    def getMap(self, level):
+        print('Loading level ' + str(level))
+        for component in maps.genlevel(level):
             vst = component[0]
             vh = component[2]
             hst = component[1]
             hh = component[3]
             self.map[vst:vst + vh, hst:hst + hh] = component[4]
-
-    def loadMap(self, level):
-        print("loading map")
-        for component in maps.maps[level]:
-            vst = component[0]
-            vh = component[2]
-            hst = component[1]
-            hh = component[3]
-            self.map[vst:vst + vh, hst:hst + hh] = component[4]
-
-
+            
     def render(self):
         for i in self.map:
             for j in range(self.offset, self.offset + self.dim_j):
@@ -69,7 +58,8 @@ class Screen:
                     char = Back.GREEN + '.'
                 if i[j] == 7:
                     char = Back.CYAN + '*'
-
+                if i[j] == 8:
+                    char = Back.YELLOW + 'X'
                 if i[j] >= 20:
                     char = Back.BLACK + '^'
                 print(char, end='')

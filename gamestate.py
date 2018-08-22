@@ -1,16 +1,18 @@
 from screen import Screen
 from people import Mario
 from people import Enemy
+from people import PowerUp
 from backgrounds import Back
 from backgrounds import Cloud
 from objects import Brick
-from objects import PowerUp
 
 from util import clear
 
 from time import monotonic as timer
 from random import random
 from random import randrange
+
+import time
 
 class Game:
     '''
@@ -46,6 +48,8 @@ class Game:
         self.count = 20
         self.count_l = 20
 
+        self.level = level
+
     def changeState(self, keypress):
         '''
         Calculates and applies changes within each cycle
@@ -61,18 +65,24 @@ class Game:
             self.screen.offset += 1
 
         # Generate any enemies
-        self.generateEnemy()
+        if self.level != 0:
+            self.generateEnemy()
 
-        # Apply gravity and movement
+        # Apply gravity and movement4
+        if self.codes[7] is not None:
+            self.codes[7].vertical()
+            if random() < 0.5:
+                self.codes[7].move(1)
+
         for enemy in range(self.count_l, self.count):
             self.codes[enemy].vertical()
             self.codes[enemy].move()
+
         self.player.vertical()
 
         # Check interactions
         for enemy in range(self.count_l, self.count):
             if self.codes[enemy].lives <= 0:
-                print("ENEMY DED")
                 self.erase(enemy, 1, self.codes[enemy].i, self.codes[enemy].j)
                 self.count_l += 1
 
@@ -125,10 +135,11 @@ class Game:
         self.headline()
 
     def gameOver(self):
-        clear()
+        # clear()
         print("GAME OVER. Press any key to exit")
 
     def levelScreen(self, level, lives):
+        time.sleep(1)
         clear()
         print("Level: " + str(level))
         print("Lives left: " + str(lives))

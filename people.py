@@ -1,4 +1,5 @@
 from objects import Generic
+from objects import Brick
 import backgrounds
 from colorama import Fore, Back, Style
 
@@ -207,13 +208,14 @@ class Mario(Person):
         '''
 
         contact = super().collision(dir)
+        obj = self.game.screen.map[contact[1][0], contact[1][1]]
 
         if contact:
-            obj = self.game.screen.map[contact[1][0], contact[1][1]]
 
             if obj == 7: # On collision with a powerup
                 self.resize(1)
                 self.game.erase(obj, dir, contact[1][0], contact[1][1])
+                del self.game.codes[obj]
 
             if obj >= 20: # On collision with enemy
                 if dir == 4: # collision below
@@ -227,6 +229,14 @@ class Mario(Person):
 
             if obj == 6 and dir == 3 and self.getSize()[0] == 4:
                 self.game.erase(obj, dir, contact[1][0], contact[1][1])
+
+            if obj == 8 and dir == 3:
+                hi = contact[1][0]
+                hj = contact[1][1]
+                pow = PowerUp(self.game, hi-2, hj)
+                self.game.codes[7] = pow
+                self.game.screen.position(pow)
+                self.game.screen.add(Brick(), hi-1, hi+1, hj, hj+4)
 
         return contact
 
@@ -273,15 +283,17 @@ class Enemy(Person):
 
         return contact
 
-# For the enemy class:
-# keep a set size. This is important
-# for the right/left, do a system similar to the jump in player
-# in the collisions here: if collision with a non enemy, just change direction
-# Don't keep a fixed code. One code assigned to each instance, generated as they
-# enter the frame
-#
-#
-#
-#
-#
-#
+
+
+class PowerUp(Person):
+    '''
+    Not a person, but it's live so
+    '''
+    def __init__(self, game, i, j):
+        super().__init__(game)
+        self.code = 7
+        self.i = i
+        self.j = j
+
+    def getSize(self):
+        return 2,2

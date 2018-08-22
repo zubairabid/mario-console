@@ -78,7 +78,7 @@ if __name__ == "__main__":
                 keys.flush()
 
                 # time.sleep(0.05)
-                print(frame - game.getTRemain())
+                # print(frame - game.getTRemain())
                 while(frame - game.getTRemain() < 0.1):
                     # Maintains some sort of framerate
                     continue

@@ -49,8 +49,9 @@ class Brick(Thing):
         super().__init__()
         self.code = 6
 
-class PowerUp(Thing):
+
+class HidBrick(Brick):
 
     def __init__(self):
-        super.__init__()
-        self.code = 7
+        super().__init__()
+        self.code = 8
