@@ -17,6 +17,7 @@ class Screen:
         # Set up map
         self.map = np.array([[0 for col in range(1000)] for row in range(dim_i)])
         self.loadMap(level)
+        # self.randomMap()
 
         # Set up screen. Contains a display and a buffer
         # self.scr = np.array([[0 for col in range(dim_j)] for row in range(dim_i)])
@@ -35,6 +36,14 @@ class Screen:
     def add(self, obj, from_i, to_i, from_j, to_j):
         self.map[from_i:to_i, from_j:to_j] = obj.code
 
+    def randomMap(self):
+        print('Loading a random map')
+        for component in maps.random():
+            vst = component[0]
+            vh = component[2]
+            hst = component[1]
+            hh = component[3]
+            self.map[vst:vst + vh, hst:hst + hh] = component[4]
 
     def loadMap(self, level):
         print("loading map")

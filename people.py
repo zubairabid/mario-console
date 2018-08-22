@@ -69,6 +69,11 @@ class Person(Generic):
                     return (True, (self.i-self.getSize()[0],j))
         # Direction: down
         elif dir == 4:
+
+            if self.i == 35:
+                self.lives -= 1
+                return True, (0,0)
+
             for j in range(self.j-1,self.j-1+self.getSize()[1]):
                 if self.game.screen.map[self.i+1,j] >= 5:
                     return (True, (self.i+1,j))
@@ -169,7 +174,7 @@ class Mario(Person):
     class Person
     '''
 
-    def __init__(self, game):
+    def __init__(self, game, lives):
         super().__init__(game, 31, 3)
 
         self.jstate = 0
@@ -180,7 +185,7 @@ class Mario(Person):
 
         self.code = 5
 
-        self.lives = 3
+        self.lives = lives
 
     def getSize(self):
         return (self.s_i, self.s_j)

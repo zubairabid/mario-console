@@ -39,41 +39,61 @@ if __name__ == "__main__":
 
         # Start a new Game with level
         # the screen used is a property of the game object
-        game = Game(int(level), 200) # un-hardcode time after
+        lives = 3
+        leave = 0
+        while lives > 0:
+            game = Game(int(level), 200, lives) # un-hardcode time after
 
-        # Game loop executes as time remains
-        while game.getTRemain() > 0:
-
-            # frame stores the time remaining at the start of rendering
-            # a frame, so as to calculate how long actually rendering it
-            # took, and to maintain a framerate
-            frame = game.getTRemain()
-
-            # repaint screen
-            game.repaint()
-
-            # poll for input
-            input=''
-            if keys.kbHit():
-                input = keys.getCh()
-
-            # process input
-            cin = keypress(input)
-            if cin == -1:
-                break
-
-            # run game mechanics for each cycle
-            game.changeState(cin)
-
-            # Clear input buffer to prevent delayed response
+            clear()
+            print("Level: " + str(level))
+            print("Lives left: " + str(lives))
+            print("Press any key to continue")
             keys.flush()
+            keys.getCh()
 
-            # time.sleep(0.05)
-            print(frame - game.getTRemain())
-            while(frame - game.getTRemain() < 0.1):
-                # Maintains some sort of framerate
-                continue
+            # Game loop executes as time remains
+            while game.getTRemain() > 0:
+
+                # frame stores the time remaining at the start of rendering
+                # a frame, so as to calculate how long actually rendering it
+                # took, and to maintain a framerate
+                frame = game.getTRemain()
+
+                # repaint screen
+                game.repaint()
+
+                # poll for input
+                input=''
+                if keys.kbHit():
+                    input = keys.getCh()
+
+                # process input
+                cin = keypress(input)
+                if cin == -1:
+                    leave = 1
+                    break
+
+                # run game mechanics for each cycle
+                if game.changeState(cin) == -1:
+                    break
+
+                # Clear input buffer to prevent delayed response
+                keys.flush()
+
+                # time.sleep(0.05)
+                print(frame - game.getTRemain())
+                while(frame - game.getTRemain() < 0.1):
+                    # Maintains some sort of framerate
+                    continue
+
+            if leave == 1:
+                break
+            lives -= 1
 
     finally:
+        clear()
+        print("GAME OVER. Press any key to exit")
+        keys.flush()
+        keys.getCh()
         # Switch back to the original terminal state
         keys.orTerm()

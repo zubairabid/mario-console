@@ -17,7 +17,7 @@ class Game:
     Each game is represented as an object
     '''
 
-    def __init__(self, level, time):
+    def __init__(self, level, time, lives):
         '''
         Initializes game, includes:
         1. Setup map+screen, player 1, position player on map
@@ -28,7 +28,7 @@ class Game:
 
         self.screen = Screen(36, 96, level, self)
 
-        self.player = Mario(self)
+        self.player = Mario(self, lives)
 
         # 0: Back, 1: Cloud (Back) ...  5. Mario, 6. Brick
         self.codes = [Back(), Cloud(), Back(), Back(), Back(), self.player, Brick()]
@@ -49,6 +49,8 @@ class Game:
         '''
         Calculates and applies changes within each cycle
         '''
+
+        l = self.player.lives
 
         # Apply mario movement
         self.player.move(keypress)
@@ -73,8 +75,11 @@ class Game:
                 self.erase(enemy, 1, self.codes[enemy].i, self.codes[enemy].j)
                 self.count_l += 1
 
-        if self.player.lives <= 0:
-            print('YOU SHOULD BE DEAD')
+        if self.player.lives < l:
+            return -1
+
+        return 0
+
     def generateEnemy(self):
         '''
         Creates an enemy
@@ -125,5 +130,5 @@ class Game:
         return timer()
 
     def headline(self):
-        print('TIME LEFT: ' + str(self.getTRemain()))
+        print('TIME LEFT: ' + str(self.getTRemain()//1))
         print('LIVES LEFT: ' + str(self.player.lives))
