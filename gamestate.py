@@ -130,7 +130,7 @@ class Game:
             i = pi + 1
             j = pj
 
-        if i == 36:
+        if i == 36 or i == -1:
             return
 
         if self.screen.map[i,j] == obj:
