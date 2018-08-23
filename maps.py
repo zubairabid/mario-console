@@ -4,7 +4,7 @@ from random import randrange
 def genlevel(num):
     map = []
 
-    
+
 
     map.append([32, 0, 4, 600, 6]) # a floor
 
@@ -47,6 +47,12 @@ def genlevel(num):
 
             if random() < 0.2:
                 map.append([23, j, 2, 4, 8])
+
+            if random() < 0.7:
+                map.append([17, j, 2, 2, 9])
+                map.append([17, j+3, 2, 2, 9])
+                map.append([17, j+6, 2, 2, 9])
+                map.append([17, j+9, 2, 2, 9])
 
             # Adding platform 2:
             if random() < 0.5:

@@ -60,6 +60,8 @@ class Screen:
                     char = Back.CYAN + '*'
                 if i[j] == 8:
                     char = Back.YELLOW + 'X'
+                if i[j] == 9:
+                    char = Fore.YELLOW + 'O'
                 if i[j] >= 20:
                     char = Back.BLACK + '^'
                 print(char, end='')

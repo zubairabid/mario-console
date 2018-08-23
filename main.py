@@ -72,7 +72,7 @@ if __name__ == "__main__":
                 # process input
                 cin = keypress(input)
                 if cin == -1:
-                    status = 1
+                    status = 2
                     break
 
                 # run game mechanics for each cycle

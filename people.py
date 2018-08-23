@@ -2,6 +2,7 @@ from objects import Generic
 from objects import Brick
 import backgrounds
 from colorama import Fore, Back, Style
+import configs
 
 class Person(Generic):
     '''
@@ -216,10 +217,16 @@ class Mario(Person):
                 self.resize(1)
                 self.game.erase(obj, dir, contact[1][0], contact[1][1])
                 del self.game.codes[obj]
+                self.game.points += configs.POINTS_PUP
+
+            if obj == 9: # On collison with a coin
+                self.game.erase(obj, dir, contact[1][0], contact[1][1])
+                self.game.points += configs.POINTS_COIN
 
             if obj >= 20: # On collision with enemy
                 if dir == 4: # collision below
                     self.game.codes[obj].lives -= 1
+                    self.game.points += configs.POINTS_ENMY
                 else:
                     if self.getSize()[0] == 4:
                         self.resize(0)
@@ -283,6 +290,13 @@ class Enemy(Person):
 
         return contact
 
+class Boss(Enemy):
+
+    def __init__(self, game, code, i, j):
+        super().__init__(game, code, i, j)
+
+        self.s_i = 6
+        self.s_j = 10
 
 
 class PowerUp(Person):

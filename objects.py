@@ -55,3 +55,8 @@ class HidBrick(Brick):
     def __init__(self):
         super().__init__()
         self.code = 8
+
+class Coin(Thing):
+    def __init__(self):
+        super().__init__()
+        self.code = 9

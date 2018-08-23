@@ -49,6 +49,7 @@ class Game:
         self.count_l = 20
 
         self.level = level
+        self.points = 0
 
     def changeState(self, keypress):
         '''
@@ -169,3 +170,4 @@ class Game:
     def headline(self):
         print('TIME LEFT: ' + str(self.getTRemain()//1))
         print('LIVES LEFT: ' + str(self.player.lives))
+        print('POINTS: ' + str(self.points))
