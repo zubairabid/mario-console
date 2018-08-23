@@ -8,6 +8,7 @@ from objects import Brick
 
 from people import Mario
 from people import Enemy
+from people import Boss
 from people import PowerUp
 
 from backgrounds import Back
@@ -91,6 +92,12 @@ class Game:
                 self.codes[enemy].vertical()
                 self.codes[enemy].move()
 
+        # > On boss
+        if self.codes[999] is not None:
+            self.codes[999].move()
+            if self.player.j > configs.LEV_J//2:
+                self.codes[999].vertical()
+
         # > On player
         self.player.vertical()
 
@@ -125,6 +132,11 @@ class Game:
             self.screen.position(mush)
             self.codes[self.count] = mush
             self.count += 1
+
+        if self.player.j == 50:
+            boss = Boss(self, 999, 8, 50)
+            self.screen.position(boss)
+            self.codes[999] = boss
 
     def erase(self, objn, dir, pi, pj):
         '''

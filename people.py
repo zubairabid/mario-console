@@ -251,8 +251,9 @@ class Mario(Person):
 
             if obj >= 20: # On collision with enemy
                 if dir == 4: # collision below
-                    self.game.codes[obj].lives -= 1
-                    self.game.points += configs.POINTS_ENMY
+                    if self.game.codes[obj] is not None:
+                        self.game.codes[obj].lives -= 1
+                        self.game.points += configs.POINTS_ENMY
                 else:
                     if self.getSize()[0] == 4:
                         self.resize(0)
@@ -295,13 +296,25 @@ class Enemy(Person):
 
         return contact
 
-class Boss(Enemy):
+class Boss(Person):
 
     def __init__(self, game, code, i, j):
-        super().__init__(game, code, i, j)
+        super().__init__(game, i, j, 6, 10)
 
-        self.s_i = 6
-        self.s_j = 10
+        self.code = code
+
+    def move(self):
+        if self.j > self.game.player.j:
+            super().move(2)
+        else:
+            super().move(1)
+
+    def collision(self, dir):
+        contact = super().collision(dir)
+        return self.j < 26, contact[1]
+
+    def vertical(self):
+        pass
 
 
 class PowerUp(Person):

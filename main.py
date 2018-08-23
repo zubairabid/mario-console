@@ -35,9 +35,18 @@ if __name__ == "__main__":
         # clear screen and enable non blocking input
         clear()
         keys.nbTerm()
+        level = 0
 
         print("Choose level you want to play:\n0\t1\t2")
-        level = int(keys.getCh())
+        try:
+            level = int(keys.getCh())
+        except:
+            print('Faulty input, aborting')
+            exit()
+
+        if level > 2 or level < 0:
+            print('Choice out of bounds')
+            exit()
 
         # Start a new Game with level
         # the screen used is a property of the game object
@@ -82,7 +91,9 @@ if __name__ == "__main__":
 
                 # Clear input buffer to prevent delayed response
                 keys.flush()
-
+                if game.codes[999] is not None:
+                    print("BOSS EXISTS")
+                    print(game.screen.map[5, 53])
                 # Maintains some sort of framerate
                 while(frame - game.getTRemain() < 0.1):
                     continue
