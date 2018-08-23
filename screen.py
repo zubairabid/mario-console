@@ -5,6 +5,7 @@ import time
 
 import maps
 
+import configs
 
 class Screen:
 
