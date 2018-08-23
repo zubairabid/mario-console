@@ -231,7 +231,7 @@ class Mario(Person):
             if obj == 7:
                 self.resize(1)
                 self.game.erase(obj, dir, contact[1][0], contact[1][1])
-                del self.game.codes[obj]
+                self.game.codes[obj] = None
                 self.game.points += configs.POINTS_PUP
 
             # Collision with a hidden brick
@@ -306,15 +306,25 @@ class Boss(Person):
     def move(self):
         if self.j > self.game.player.j:
             super().move(2)
+        elif self.j == self.game.player.j:
+            pass
         else:
             super().move(1)
 
     def collision(self, dir):
         contact = super().collision(dir)
-        return self.j < 26, contact[1]
+        obj = self.game.screen.map[contact[1][0], contact[1][1]]
+
+        if obj == 5:
+            self.game.codes[obj].lives -= 1
+
+        return obj==5, contact[1]
 
     def vertical(self):
-        pass
+        if self.i >= 21:
+            self.jstate = 15
+
+        super().vertical()
 
 
 class PowerUp(Person):

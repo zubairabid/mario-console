@@ -53,12 +53,13 @@ if __name__ == "__main__":
         lives = configs.MAX_LIFE
 
         status = 0 # -1: quit, 1: level up=
+        points = 0
 
         while lives > 0:
             game = Game(level, configs.STD_TIME, lives)
 
             # Level screen
-            game.levelScreen(level, lives)
+            game.levelScreen(level, lives, points)
             keys.flush()
             keys.getCh()
 
@@ -91,9 +92,7 @@ if __name__ == "__main__":
 
                 # Clear input buffer to prevent delayed response
                 keys.flush()
-                if game.codes[999] is not None:
-                    print("BOSS EXISTS")
-                    print(game.screen.map[5, 53])
+
                 # Maintains some sort of framerate
                 while(frame - game.getTRemain() < 0.1):
                     continue
@@ -105,6 +104,8 @@ if __name__ == "__main__":
             if status == 1:
                 status = 0
                 level += 1
+                points += game.points + game.getTRemain()//1
+                continue
 
             if level >= 3:
                 break
@@ -113,7 +114,9 @@ if __name__ == "__main__":
             lives -= 1
 
     finally:
-        print("GAME OVER. Press any key to exit")
+        time.sleep(0.5)
+        clear()
+        print("GAME OVER. Final points: "+ str(points) +"\nPress any key to exit")
 
         keys.flush()
         keys.getCh()

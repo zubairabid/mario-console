@@ -133,7 +133,7 @@ class Game:
             self.codes[self.count] = mush
             self.count += 1
 
-        if self.player.j == 50:
+        if self.level == 2 and self.player.j == 50:
             boss = Boss(self, 999, 8, 50)
             self.screen.position(boss)
             self.codes[999] = boss
@@ -185,14 +185,11 @@ class Game:
         '\t\u2661 : ' + str(self.player.lives))
         print('POINTS: ' + str(self.points))
 
-    def gameOver(self):
-        print("GAME OVER. Press any key to exit")
-
-    def levelScreen(self, level, lives):
-        time.sleep(1)
+    def levelScreen(self, level, lives, points):
         clear()
         print("Level: " + str(level))
         print("Lives left: " + str(lives))
+        print("Total Points: " + str(points))
         print("Press any key to continue")
 
     def getTRemain(self):
