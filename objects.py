@@ -1,14 +1,7 @@
-from colorama import Fore, Back, Style
-
 class Generic:
     '''
     Every object in the game inherits from here.
     '''
-    def __repr__(self):
-        return 'Generic object for everything'
-
-    def __str__(self):
-        return Back.BLUE + ' '
 
     def __init__(self):
         pass
@@ -16,34 +9,23 @@ class Generic:
     def getSize(self):
         pass
 
-    def setSize(self):
-        pass
-
     def getLoc(self):
-        pass
-
-    def setLoc(self):
         pass
 
 
 class Thing(Generic):
-    def __repr__(self):
-        return 'Generic object for everything'
-
-    def __str__(self):
-        return Back.MAGENTA + ' '
+    '''
+    Generic object
+    '''
 
     def __init__(self):
         super().__init__()
 
 
 class Brick(Thing):
-
-    def __repr__(self):
-        return 'Generic object for everything'
-
-    def __str__(self):
-        return Back.MAGENTA + ' '
+    '''
+    Defines the generic brick
+    '''
 
     def __init__(self):
         super().__init__()
@@ -51,12 +33,19 @@ class Brick(Thing):
 
 
 class HidBrick(Brick):
+    '''
+    Defines the brick hiding powerup
+    '''
 
     def __init__(self):
         super().__init__()
         self.code = 8
 
 class Coin(Thing):
+    '''
+    Defines coin
+    '''
+
     def __init__(self):
         super().__init__()
         self.code = 9
