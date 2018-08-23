@@ -38,21 +38,17 @@ if __name__ == "__main__":
         level = 0
 
         print("Choose level you want to play:\n0\t1\t2")
-        try:
-            level = int(keys.getCh())
-        except:
-            print('Faulty input, aborting')
-            exit()
+        level = int(keys.getCh())
 
         if level > 2 or level < 0:
-            print('Choice out of bounds')
-            exit()
+            print('Choice out of bounds. Resetting to 0')
+            level = 0
 
         # Start a new Game with level
         # the screen used is a property of the game object
         lives = configs.MAX_LIFE
 
-        status = 0 # -1: quit, 1: level up=
+        status = 0
         points = 0
 
         while lives > 0:
@@ -75,7 +71,7 @@ if __name__ == "__main__":
                 game.repaint()
 
                 # poll for input
-                input=''
+                input = ''
                 if keys.kbHit():
                     input = keys.getCh()
 
@@ -99,7 +95,7 @@ if __name__ == "__main__":
 
             # Game quit
             if status == 2:
-                break;
+                break
             # Level up
             if status == 1:
                 status = 0
@@ -116,7 +112,8 @@ if __name__ == "__main__":
     finally:
         time.sleep(0.5)
         clear()
-        print("GAME OVER. Final points: "+ str(points) +"\nPress any key to exit")
+        print("GAME OVER. Final points: " + str(points) +
+              "\nPress any key to exit")
 
         keys.flush()
         keys.getCh()

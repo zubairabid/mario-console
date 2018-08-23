@@ -41,6 +41,7 @@ class HidBrick(Brick):
         super().__init__()
         self.code = 8
 
+
 class Coin(Thing):
     '''
     Defines coin

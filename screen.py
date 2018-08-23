@@ -5,6 +5,7 @@ import time
 
 import maps
 
+
 class Screen:
 
     def __init__(self, dim_i, dim_j, level, game):
@@ -15,7 +16,8 @@ class Screen:
         self.game = game
 
         # Set up map
-        self.map = np.array([[0 for col in range(600)] for row in range(dim_i)])
+        self.map = np.array([[0 for col in range(configs.MAX_J)]
+                            for row in range(dim_i)])
         self.loadMap(level)
 
         # offset from where map starts displaying on screen
@@ -31,10 +33,10 @@ class Screen:
         '''
         print('Loading level ' + str(level))
         for component in maps.genlevel(level):
-            vst = component[0] # y1
-            vh = component[2] # x1
-            hst = component[1] # y2 - y1
-            hh = component[3] # x2 - x1
+            vst = component[0]
+            vh = component[2]
+            hst = component[1]
+            hh = component[3]
             self.map[vst:vst + vh, hst:hst + hh] = component[4]
 
     def position(self, obj):
@@ -62,7 +64,8 @@ class Screen:
         Generates the screen
         '''
 
-        trackc = 0 # Used to render Mario's character properly
+        # Used to render Mario's character properly
+        trackc = 0
         sky = Back.BLUE
         brick = Back.GREEN
 
@@ -75,13 +78,16 @@ class Screen:
 
                 char = ''
 
-                if i[j] == 0: # Sky
+                # Sky
+                if i[j] == 0:
                     char = sky + Fore.BLACK + ' '
 
-                if i[j] == 1: # Clouds
+                # Clouds
+                if i[j] == 1:
                     char = Back.WHITE + '0'
 
-                if i[j] == 5: # Mario
+                # Mario
+                if i[j] == 5:
                     if trackc == 0 or trackc == 2:
                         char = 'O'
                     else:
@@ -89,19 +95,24 @@ class Screen:
                     trackc += 1
                     char = sky + Fore.RED + char
 
-                if i[j] == 6: # Brick
+                # Brick
+                if i[j] == 6:
                     char = brick + '.'
 
-                if i[j] == 7: # PowerUp
+                # PowerUp
+                if i[j] == 7:
                     char = Back.CYAN + '*'
 
-                if i[j] == 8: # Hidden Brick
+                # Hidden Brick
+                if i[j] == 8:
                     char = Back.YELLOW + 'X'
 
-                if i[j] == 9: # Coins
+                # Coins
+                if i[j] == 9:
                     char = sky + Fore.YELLOW + 'O'
 
-                if i[j] >= 20: # Enemy
+                # Enemy
+                if i[j] >= 20:
                     char = Back.RED + Fore.BLACK + '^'
 
                 print(char, end='')

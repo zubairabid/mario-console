@@ -1,6 +1,7 @@
 from objects import Generic
 from colorama import Fore, Back, Style
 
+
 class Back(Generic):
     '''
     Defines the background, aka Sky

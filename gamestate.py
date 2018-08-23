@@ -43,7 +43,7 @@ class Game:
         # 0: Back, 1: Cloud (Back) ...  5. Mario, 6. Brick, 7. PowerUp
 
         self.codes = [Back(), Cloud(), None, None, None, self.player, Brick()]
-        for temp in range(1000): # Change later
+        for temp in range(1000):
             self.codes.append(None)
 
         self.screen.position(self.player)
@@ -66,7 +66,7 @@ class Game:
         '''
 
         # To check if life is lost within cycle
-        l = self.player.lives
+        clife = self.player.lives
 
         # Apply mario movement
         self.player.move(keypress)
@@ -111,7 +111,7 @@ class Game:
                     self.count_l += 1
 
         # > Checks if player is alive and updates accordingly
-        if self.player.lives < l:
+        if self.player.lives < clife:
             return -1
 
         # Crossed game level
@@ -159,9 +159,9 @@ class Game:
         if i >= 36 or i <= -1:
             return
 
-        if self.screen.map[i,j] == objn:
+        if self.screen.map[i, j] == objn:
             self.screen.add(Back(), i, i+1, j, j+1)
-            for k in range(1,5):
+            for k in range(1, 5):
                 self.erase(objn, k, i, j)
 
     def delete(self):
@@ -175,14 +175,13 @@ class Game:
         self.screen.render()
         self.headline()
 
-
     def headline(self):
         '''
         Part of the render, gives status
         '''
         print('Level: ' + str(self.level) +
-        '\t\u23f1 : ' + str(self.getTRemain()//1) +
-        '\t\u2661 : ' + str(self.player.lives))
+              '\t\u23f1 : ' + str(self.getTRemain()//1) +
+              '\t\u2661 : ' + str(self.player.lives))
         print('POINTS: ' + str(self.points))
 
     def levelScreen(self, level, lives, points):

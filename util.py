@@ -5,6 +5,7 @@ import termios
 
 import subprocess as sp
 
+
 def clear():
     '''
     function to clear the terminal screen
@@ -13,17 +14,22 @@ def clear():
 
 
 def keypress(c):
-    if c == '\x51' or c == '\x71': # q/Q
+    # q/Q
+    if c == '\x51' or c == '\x71':
         return -1
 
-    elif c == '\x44' or c == '\x64': # d/D
+    # d/D
+    elif c == '\x44' or c == '\x64':
         return 1
 
-    elif c == '\x41' or c == '\x61': #a/A
+    # a/A
+    elif c == '\x41' or c == '\x61':
         return 2
 
-    elif c == '\x57' or c == '\x77': # w/W
+    # w/W
+    elif c == '\x57' or c == '\x77':
         return 3
+
 
 class NBInput:
     '''
@@ -37,7 +43,6 @@ class NBInput:
          - Conversion to new mode has to be manual
         '''
         self.old_settings = termios.tcgetattr(sys.stdin)
-
 
     def nbTerm(self):
         '''

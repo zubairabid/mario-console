@@ -24,7 +24,7 @@ class Person(Generic):
         vertical() provides gravitational + jump functionality to the object
     '''
 
-    def __init__(self, game, i = 0, j = 0, s_i = 1, s_j = 1):
+    def __init__(self, game, i=0, j=0, s_i=1, s_j=1):
         '''
         Location is a default property of all "people"
         '''
@@ -48,7 +48,7 @@ class Person(Generic):
         # (>0: jumping up, 0: stable, <0: falling)
         self.jstate = 0
 
-        self.lives  = 1
+        self.lives = 1
 
     def getLoc(self):
         return (self.i, self.j)
@@ -68,21 +68,21 @@ class Person(Generic):
 
         # Direction: right
         if dir == 1:
-            for i in range(self.i+1-self.getSize()[0],self.i+1):
-                if self.game.screen.map[i,self.j+self.getSize()[1]-1] >= 5:
-                    return (True, (i,self.j+self.getSize()[1]-1))
+            for i in range(self.i+1-self.getSize()[0], self.i+1):
+                if self.game.screen.map[i, self.j + self.getSize()[1]-1] >= 5:
+                    return (True, (i, self.j + self.getSize()[1]-1))
 
         # Direction: left
         elif dir == 2:
-            for i in range(self.i+1-self.getSize()[0],self.i+1):
-                if self.game.screen.map[i,self.j-2] >= 5:
-                    return (True, (i,self.j-2))
+            for i in range(self.i + 1 - self.getSize()[0], self.i + 1):
+                if self.game.screen.map[i, self.j - 2] >= 5:
+                    return (True, (i, self.j - 2))
 
         # Direction: up
         elif dir == 3:
-            for j in range(self.j-1,self.j-1+self.getSize()[1]):
-                if self.game.screen.map[self.i-self.getSize()[0],j] >= 5:
-                    return (True, (self.i-self.getSize()[0],j))
+            for j in range(self.j - 1, self.j - 1 + self.getSize()[1]):
+                if self.game.screen.map[self.i - self.getSize()[0], j] >= 5:
+                    return (True, (self.i - self.getSize()[0], j))
 
         # Direction: down
         elif dir == 4:
@@ -90,13 +90,13 @@ class Person(Generic):
             # Death
             if self.i == 35:
                 self.lives -= 1
-                return True, (0,0)
+                return True, (0, 0)
 
-            for j in range(self.j-1,self.j-1+self.getSize()[1]):
-                if self.game.screen.map[self.i+1,j] >= 5:
-                    return (True, (self.i+1,j))
+            for j in range(self.j - 1, self.j - 1 + self.getSize()[1]):
+                if self.game.screen.map[self.i + 1, j] >= 5:
+                    return (True, (self.i + 1, j))
 
-        return (False, (0,0))
+        return (False, (0, 0))
 
     def move(self, key):
         '''
@@ -105,12 +105,13 @@ class Person(Generic):
         movement here
         '''
 
-        if key == 1: # d, go right
-            if not self.collision(1)[0]: # right collison
+        # d, go right
+        if key == 1:
+            # right collision
+            if not self.collision(1)[0]:
                 self.j += 1
 
                 # Delete the layer Person crossed, and add to the layer added
-                #  TODO Modularise
                 t_i = self.i+1
                 f_i = self.i+1-self.getSize()[0]
 
@@ -120,12 +121,13 @@ class Person(Generic):
                 self.game.screen.add(back.Back(), f_i, t_i, del_j-1, del_j)
                 self.game.screen.add(self, f_i, t_i, add_j-1, add_j)
 
-        if key == 2: # a, go left
-            if not self.collision(2)[0]: # left collison
+        # a, go left
+        if key == 2:
+            # left collision
+            if not self.collision(2)[0]:
                 self.j -= 1
 
                 # Delete the layer Person crossed, and add to the layer added
-                #  TODO Modularise
                 t_i = self.i+1
                 f_i = self.i+1-self.getSize()[0]
 
@@ -135,7 +137,8 @@ class Person(Generic):
                 self.game.screen.add(back.Back(), f_i, t_i, del_j, del_j+1)
                 self.game.screen.add(self, f_i, t_i, add_j, add_j+1)
 
-        if key == 3: #w, go up
+        # w, go up
+        if key == 3:
             if self.jstate == 0:
                 self.jstate = self.maxj
 
@@ -146,17 +149,18 @@ class Person(Generic):
         '''
 
         if self.jstate > 0:
-            if not self.collision(3)[0]: # up collison
+            # Up collision
+            if not self.collision(3)[0]:
 
                 self.jstate -= 1
+
+                #  minor hack to stop double jumps
                 if self.jstate == 0:
                     self.jstate -= 1
-                    #  minor hack to stop double jumps
 
                 self.i -= 1
 
                 # Delete the layer Person crossed, and add to the layer added
-                #  TODO Modularise
                 t_j = self.j+self.getSize()[1]-1
                 f_j = self.j-1
 
@@ -168,12 +172,12 @@ class Person(Generic):
             else:
                 self.jstate = 0
         else:
-            if not self.collision(4)[0]: # down collison
+            # down collison
+            if not self.collision(4)[0]:
                 self.jstate -= 1
                 self.i += 1
 
                 # Delete the layer Person crossed, and add to the layer added
-                #  TODO Modularise
                 t_j = self.j+self.getSize()[1]-1
                 f_j = self.j-1
 
@@ -203,11 +207,14 @@ class Mario(Person):
         self.lives = lives
 
     def resize(self, size):
-        if size == 0: # small
+        # small
+        if size == 0:
             self.s_i = 3
-            self.game.screen.add(back.Back(), self.i-3, self.i-2, self.j-1, self.j+2)
+            self.game.screen.add(back.Back(), self.i-3, self.i-2, self.j-1,
+                                 self.j+2)
             self.maxj = 7
-        else: # enlargen
+        # large
+        else:
             self.s_i = 4
             self.game.screen.add(self, self.i-3, self.i-2, self.j-1, self.j+2)
             self.maxj = 11
@@ -241,16 +248,19 @@ class Mario(Person):
                 pow = PowerUp(self.game, hi-2, hj)
                 self.game.codes[7] = pow
                 self.game.screen.position(pow)
-                self.game.erase(8, 1, hi-1, hj)
-                self.game.erase(8, 2, hi-1, hj)
-                self.game.screen.add(Brick(), hi-1, hi+1, hj, hj+4)
+                self.game.erase(8, 1, hi - 1, hj)
+                self.game.erase(8, 2, hi - 1, hj)
+                self.game.screen.add(Brick(), hi - 1, hi + 1, hj, hj + 4)
 
-            if obj == 9: # On collison with a coin
+            # On collison with a coin
+            if obj == 9:
                 self.game.erase(obj, dir, contact[1][0], contact[1][1])
                 self.game.points += configs.POINTS_COIN
 
-            if obj >= 20: # On collision with enemy
-                if dir == 4: # collision below
+            # On collison with enemy
+            if obj >= 20:
+                # Collision below
+                if dir == 4:
                     if self.game.codes[obj] is not None:
                         self.game.codes[obj].lives -= 1
                         self.game.points += configs.POINTS_ENMY
@@ -332,7 +342,7 @@ class Boss(Person):
         if obj == 5:
             self.game.codes[obj].lives -= 1
 
-        return obj==5, contact[1]
+        return obj == 5, contact[1]
 
     def vertical(self):
         '''
@@ -355,4 +365,4 @@ class PowerUp(Person):
         self.j = j
 
     def getSize(self):
-        return 2,2
+        return 2, 2

@@ -3,6 +3,7 @@ import configs
 from random import random
 from random import randrange
 
+
 def genlevel(num):
     '''
     generates a map for level num
@@ -33,8 +34,8 @@ def genlevel(num):
         pipegap = 0.6
         platform1 = 0.05
 
-    map.append([32, 0, 4, configs.MAX_J - 100, 6]) # a floor
-
+    # a floor
+    map.append([32, 0, 4, configs.MAX_J - 100, 6])
 
     # Coins on floor
     for j in range(configs.LEV_J):
@@ -43,7 +44,6 @@ def genlevel(num):
             map.append([30, j+3, 2, 2, 9])
             map.append([30, j+6, 2, 2, 9])
             map.append([30, j+9, 2, 2, 9])
-
 
     # Adding pipe
     for j in range(30, configs.LEV_J):
