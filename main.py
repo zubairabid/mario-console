@@ -36,7 +36,7 @@ if __name__ == "__main__":
         clear()
         keys.nbTerm()
 
-        print("Choose level you want to play:\n0\t1\t2\t3")
+        print("Choose level you want to play:\n0\t1\t2")
         level = int(keys.getCh())
 
         # Start a new Game with level
@@ -94,6 +94,9 @@ if __name__ == "__main__":
             if status == 1:
                 status = 0
                 level += 1
+
+            if level >= 3:
+                break
 
             # If here, death has happened.
             lives -= 1

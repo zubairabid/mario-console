@@ -97,9 +97,10 @@ class Game:
         # Check interactions
         # > Checks which enemy is alive and updates accordingly
         for enemy in range(self.count_l, self.count):
-            if self.codes[enemy] is not None:
-                if self.codes[enemy].lives <= 0:
-                    self.erase(enemy, 1, self.codes[enemy].i, self.codes[enemy].j)
+            enj = self.codes[enemy]
+            if enj is not None:
+                if enj.lives <= 0:
+                    self.erase(enemy, 1, enj.i, enj.j)
                     self.count_l += 1
 
         # > Checks if player is alive and updates accordingly
@@ -118,7 +119,7 @@ class Game:
         '''
 
         if(random() < configs.PROB_ENEMY):
-            lj = self.screen.offset + configs.DIM_J - randrange(10)
+            lj = self.screen.offset + 90 - randrange(10)
             li = 1
             mush = Enemy(self, self.count, li, lj)
             self.screen.position(mush)
@@ -155,12 +156,24 @@ class Game:
         pass
 
     def repaint(self):
+        '''
+        Repaints the board
+        '''
         clear()
         self.screen.render()
         self.headline()
 
+
+    def headline(self):
+        '''
+        Part of the render, gives status
+        '''
+        print('Level: ' + str(self.level) +
+        '\t\u23f1 : ' + str(self.getTRemain()//1) +
+        '\t\u2661 : ' + str(self.player.lives))
+        print('POINTS: ' + str(self.points))
+
     def gameOver(self):
-        # clear()
         print("GAME OVER. Press any key to exit")
 
     def levelScreen(self, level, lives):
@@ -178,9 +191,3 @@ class Game:
 
     def getTime(self):
         return timer()
-
-    def headline(self):
-        print('Level: ' + str(self.level) +
-        '\t\u23f1 : ' + str(self.getTRemain()//1) +
-        '\t\u2661 : ' + str(self.player.lives))
-        print('POINTS: ' + str(self.points))

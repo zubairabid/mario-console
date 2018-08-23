@@ -1,14 +1,30 @@
+import configs
+
 from objects import Generic
 from objects import Brick
-import backgrounds
+
+import backgrounds as back
+
 from colorama import Fore, Back, Style
-import configs
+
 
 class Person(Generic):
     '''
-    Generic class for all living beings in the game
+    Generic class for all living beings in the game.
+    Defines a subclass':
+        Location
+        Max jump height
+        Parent game
+        Lives
+    Functionality provided includes:
+        getLoc() returns location
+        getSize() returns size (default: 1,1)
+        collison(dir) returns (collision val, co-ordinates) in direction dir
+        move(dir) moves the object by 1 in dir
+        vertical() provides gravitational + jump functionality to the object
     '''
-    def __init__(self, game, i = 0, j = 0):
+
+    def __init__(self, game, i = 0, j = 0, s_i = 1, s_j = 1):
         '''
         Location is a default property of all "people"
         '''
@@ -24,26 +40,22 @@ class Person(Generic):
         self.i = i
         self.j = j
 
+        # Size of a Person
+        self.s_i = s_i
+        self.s_j = s_j
+
         # Default jump state of Person
         # (>0: jumping up, 0: stable, <0: falling)
         self.jstate = 0
-        # self.vspeed = 1
 
         self.lives  = 1
-
-    def __str__(self):
-        return Back.RED + 'I'
 
     def getLoc(self):
         return (self.i, self.j)
 
-    def setLoc(self, i, j):
-        self.i = i
-        self.j = j
-
     def getSize(self):
         # Default size of a Person is set to 1,1 unless overridden
-        return (1,1)
+        return (self.s_i, self.s_j)
 
     def collision(self, dir):
         '''
@@ -59,19 +71,23 @@ class Person(Generic):
             for i in range(self.i+1-self.getSize()[0],self.i+1):
                 if self.game.screen.map[i,self.j+self.getSize()[1]-1] >= 5:
                     return (True, (i,self.j+self.getSize()[1]-1))
+
         # Direction: left
         elif dir == 2:
             for i in range(self.i+1-self.getSize()[0],self.i+1):
                 if self.game.screen.map[i,self.j-2] >= 5:
                     return (True, (i,self.j-2))
+
         # Direction: up
         elif dir == 3:
             for j in range(self.j-1,self.j-1+self.getSize()[1]):
                 if self.game.screen.map[self.i-self.getSize()[0],j] >= 5:
                     return (True, (self.i-self.getSize()[0],j))
+
         # Direction: down
         elif dir == 4:
 
+            # Death
             if self.i == 35:
                 self.lives -= 1
                 return True, (0,0)
@@ -101,7 +117,7 @@ class Person(Generic):
                 del_j = self.j-1
                 add_j = self.j-1+self.getSize()[1]
 
-                self.game.screen.add(backgrounds.Back(), f_i, t_i, del_j-1, del_j)
+                self.game.screen.add(back.Back(), f_i, t_i, del_j-1, del_j)
                 self.game.screen.add(self, f_i, t_i, add_j-1, add_j)
 
         if key == 2: # a, go left
@@ -116,7 +132,7 @@ class Person(Generic):
                 add_j = self.j-1
                 del_j = self.j-1+self.getSize()[1]
 
-                self.game.screen.add(backgrounds.Back(), f_i, t_i, del_j, del_j+1)
+                self.game.screen.add(back.Back(), f_i, t_i, del_j, del_j+1)
                 self.game.screen.add(self, f_i, t_i, add_j, add_j+1)
 
         if key == 3: #w, go up
@@ -147,7 +163,7 @@ class Person(Generic):
                 del_i = self.i+1
                 add_i = self.i+1-self.getSize()[0]
 
-                self.game.screen.add(backgrounds.Back(), del_i, del_i+1, f_j, t_j)
+                self.game.screen.add(back.Back(), del_i, del_i+1, f_j, t_j)
                 self.game.screen.add(self, add_i, add_i+1, f_j, t_j)
             else:
                 self.jstate = 0
@@ -164,7 +180,7 @@ class Person(Generic):
                 add_i = self.i+1
                 del_i = self.i+1-self.getSize()[0]
 
-                self.game.screen.add(backgrounds.Back(), del_i-1, del_i, f_j, t_j)
+                self.game.screen.add(back.Back(), del_i-1, del_i, f_j, t_j)
                 self.game.screen.add(self, add_i-1, add_i, f_j, t_j)
             else:
                 self.jstate = 0
@@ -177,25 +193,19 @@ class Mario(Person):
     '''
 
     def __init__(self, game, lives):
-        super().__init__(game, 31, 3)
+        super().__init__(game, 31, 3, 3, 3)
 
         self.jstate = 0
         self.maxj = 7
-
-        self.s_i = 3
-        self.s_j = 3
 
         self.code = 5
 
         self.lives = lives
 
-    def getSize(self):
-        return (self.s_i, self.s_j)
-
     def resize(self, size):
         if size == 0: # small
             self.s_i = 3
-            self.game.screen.add(backgrounds.Back(), self.i-3, self.i-2, self.j-1, self.j+2)
+            self.game.screen.add(back.Back(), self.i-3, self.i-2, self.j-1, self.j+2)
             self.maxj = 7
         else: # enlargen
             self.s_i = 4
@@ -213,11 +223,27 @@ class Mario(Person):
 
         if contact:
 
-            if obj == 7: # On collision with a powerup
+            # Collision with brick from below as large body
+            if obj == 6 and dir == 3 and self.getSize()[0] == 4:
+                self.game.erase(obj, dir, contact[1][0], contact[1][1])
+
+            # Collison with a PowerUp
+            if obj == 7:
                 self.resize(1)
                 self.game.erase(obj, dir, contact[1][0], contact[1][1])
                 del self.game.codes[obj]
                 self.game.points += configs.POINTS_PUP
+
+            # Collision with a hidden brick
+            if obj == 8 and dir == 3:
+                hi = contact[1][0]
+                hj = contact[1][1]
+                pow = PowerUp(self.game, hi-2, hj)
+                self.game.codes[7] = pow
+                self.game.screen.position(pow)
+                self.game.erase(8, 1, hi-1, hj)
+                self.game.erase(8, 2, hi-1, hj)
+                self.game.screen.add(Brick(), hi-1, hi+1, hj, hj+4)
 
             if obj == 9: # On collison with a coin
                 self.game.erase(obj, dir, contact[1][0], contact[1][1])
@@ -233,40 +259,20 @@ class Mario(Person):
                     else:
                         self.lives -= 1
 
-
-            if obj == 6 and dir == 3 and self.getSize()[0] == 4:
-                self.game.erase(obj, dir, contact[1][0], contact[1][1])
-
-            if obj == 8 and dir == 3:
-                hi = contact[1][0]
-                hj = contact[1][1]
-                pow = PowerUp(self.game, hi-2, hj)
-                self.game.codes[7] = pow
-                self.game.screen.position(pow)
-                self.game.screen.add(Brick(), hi-1, hi+1, hj, hj+4)
-
         return contact
+
 
 class Enemy(Person):
 
     def __init__(self, game, code, i, j):
-        super().__init__(game)
+        super().__init__(game, i, j, 1, 3)
 
         self.maxj = 6
-
-        self.s_i = 1
-        self.s_j = 3
-
-        self.i = i
-        self.j = j
         self.jstate = 0
 
         self.code = code
 
         self.dir = 2
-
-    def getSize(self):
-        return (self.s_i, self.s_j)
 
     def move(self):
         super().move(self.dir)
@@ -280,7 +286,6 @@ class Enemy(Person):
         contact = super().collision(dir)
 
         if contact:
-
             obj = self.game.screen.map[contact[1][0], contact[1][1]]
             if obj == 5:
                 if self.game.codes[5].getSize()[0] == 4:

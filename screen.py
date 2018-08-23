@@ -63,6 +63,12 @@ class Screen:
         '''
 
         trackc = 0 # Used to render Mario's character properly
+        sky = Back.BLUE
+        brick = Back.GREEN
+
+        if self.game.level == 2:
+            sky = Back.BLACK
+            brick = Back.MAGENTA
 
         for i in self.map:
             for j in range(self.offset, self.offset + self.dim_j):
@@ -70,7 +76,7 @@ class Screen:
                 char = ''
 
                 if i[j] == 0: # Sky
-                    char = Back.BLUE + Fore.BLACK + ' '
+                    char = sky + Fore.BLACK + ' '
 
                 if i[j] == 1: # Clouds
                     char = Back.WHITE + '0'
@@ -81,10 +87,10 @@ class Screen:
                     else:
                         char = '|'
                     trackc += 1
-                    char = Back.BLUE + Fore.RED + char
+                    char = sky + Fore.RED + char
 
                 if i[j] == 6: # Brick
-                    char = Back.GREEN + '.'
+                    char = brick + '.'
 
                 if i[j] == 7: # PowerUp
                     char = Back.CYAN + '*'
@@ -93,10 +99,10 @@ class Screen:
                     char = Back.YELLOW + 'X'
 
                 if i[j] == 9: # Coins
-                    char = Back.BLUE + Fore.YELLOW + 'O'
+                    char = sky + Fore.YELLOW + 'O'
 
                 if i[j] >= 20: # Enemy
-                    char = Back.BLACK + Fore.RED + '^'
+                    char = Back.RED + Fore.BLACK + '^'
 
                 print(char, end='')
 
