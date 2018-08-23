@@ -72,7 +72,7 @@ class Game:
         self.player.move(keypress)
 
         # Update background (right/left)
-        if self.player.getLoc()[1] > self.screen.offset + 32:
+        if self.player.getLoc()[1] > self.screen.offset + configs.OFFSTRAIGHT:
             self.screen.offset += 1
 
         # Generate any enemies
@@ -126,7 +126,7 @@ class Game:
         '''
 
         if(random() < configs.PROB_ENEMY):
-            lj = self.screen.offset + 90 - randrange(10)
+            lj = self.screen.offset + configs.DIM_J - randrange(10)
             li = 1
             mush = Enemy(self, self.count, li, lj)
             self.screen.position(mush)
@@ -186,6 +186,9 @@ class Game:
         print('POINTS: ' + str(self.points))
 
     def levelScreen(self, level, lives, points):
+        '''
+        Printed in between levels
+        '''
         clear()
         print("Level: " + str(level))
         print("Lives left: " + str(lives))

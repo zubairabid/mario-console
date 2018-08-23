@@ -296,7 +296,11 @@ class Enemy(Person):
 
         return contact
 
+
 class Boss(Person):
+    '''
+    Defining behaviour for Boss enemy
+    '''
 
     def __init__(self, game, code, i, j):
         super().__init__(game, i, j, 6, 10)
@@ -304,14 +308,24 @@ class Boss(Person):
         self.code = code
 
     def move(self):
+        '''
+        Moves so as to track the player
+        '''
+
+        # Move to the right if falling short
         if self.j > self.game.player.j:
             super().move(2)
         elif self.j == self.game.player.j:
             pass
+        # and to the left if ahead
         else:
             super().move(1)
 
     def collision(self, dir):
+        '''
+        Only measures collisions with player for removing
+        Doesn't check for other collisions. Kills them all
+        '''
         contact = super().collision(dir)
         obj = self.game.screen.map[contact[1][0], contact[1][1]]
 
@@ -321,8 +335,11 @@ class Boss(Person):
         return obj==5, contact[1]
 
     def vertical(self):
-        if self.i >= 21:
-            self.jstate = 15
+        '''
+        Just goes up and down within given range
+        '''
+        if self.i >= configs.BOSSLOW:
+            self.jstate = configs.BOSSLOW - self.s_i
 
         super().vertical()
 

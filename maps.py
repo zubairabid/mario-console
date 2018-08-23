@@ -4,6 +4,9 @@ from random import random
 from random import randrange
 
 def genlevel(num):
+    '''
+    generates a map for level num
+    '''
     map = []
 
     pipes = 0.03
@@ -15,12 +18,32 @@ def genlevel(num):
     platform1 = 0.02
     platformcoins = 0.7
     platform2 = 0.7
-    coins = 0.015
+    coins = 0
     powerup = 0.2
 
+    if num == 0:
+        gaps = 0.02
+        pipes = 0.01
+        platformcoins = 1
+        coins = 0.03
 
+    if num == 2:
+        pipes = 0.05
+        gaps = 0.03
+        pipegap = 0.6
+        platform1 = 0.05
 
     map.append([32, 0, 4, configs.MAX_J - 100, 6]) # a floor
+
+
+    # Coins on floor
+    for j in range(configs.LEV_J):
+        if random() < coins:
+            map.append([30, j, 2, 2, 9])
+            map.append([30, j+3, 2, 2, 9])
+            map.append([30, j+6, 2, 2, 9])
+            map.append([30, j+9, 2, 2, 9])
+
 
     # Adding pipe
     for j in range(30, configs.LEV_J):
@@ -64,9 +87,11 @@ def genlevel(num):
             map.append([23, j+5, 2, 4, 6])
             map.append([23, j+10, 2, 4, 6])
 
+            # Powerup
             if random() < powerup:
                 map.append([23, j, 2, 4, 8])
 
+            # Add coins on platform
             if random() < platformcoins:
                 map.append([17, j, 2, 2, 9])
                 map.append([17, j+3, 2, 2, 9])
@@ -79,6 +104,7 @@ def genlevel(num):
                 map.append([12, j+5, 2, 4, 6])
                 map.append([12, j+10, 2, 4, 6])
 
+                # PowerUp on platform 2
                 if random() < 0.2:
                     map.append([12, j+5, 2, 4, 8])
 
