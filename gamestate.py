@@ -1,18 +1,24 @@
+from util import clear
+
+import configs
+
 from screen import Screen
+
+from objects import Brick
+
 from people import Mario
 from people import Enemy
 from people import PowerUp
+
 from backgrounds import Back
 from backgrounds import Cloud
-from objects import Brick
 
-from util import clear
-
+import time
 from time import monotonic as timer
+
 from random import random
 from random import randrange
 
-import time
 
 class Game:
     '''
@@ -34,7 +40,8 @@ class Game:
         self.player = Mario(self, lives)
 
         # 0: Back, 1: Cloud (Back) ...  5. Mario, 6. Brick, 7. PowerUp
-        self.codes = [Back(), Cloud(), Back(), Back(), Back(), self.player, Brick()]
+
+        self.codes = [Back(), Cloud(), None, None, None, self.player, Brick()]
         for temp in range(1000): # Change later
             self.codes.append(None)
 
@@ -49,6 +56,7 @@ class Game:
         self.count_l = 20
 
         self.level = level
+
         self.points = 0
 
     def changeState(self, keypress):
@@ -71,34 +79,34 @@ class Game:
             self.generateEnemy()
 
         # Apply gravity and movement
-        # On powerup
+        # > On powerup
         if self.codes[7] is not None:
             self.codes[7].vertical()
             if (self.getTime()//1) % 2 == 0:
                 self.codes[7].move(1)
 
-        # On enemy
+        # > On enemy
         for enemy in range(self.count_l, self.count):
             if self.codes[enemy] is not None:
                 self.codes[enemy].vertical()
                 self.codes[enemy].move()
 
+        # > On player
         self.player.vertical()
 
         # Check interactions
-
-        # Checks which enemy is alive and updates accordingly
+        # > Checks which enemy is alive and updates accordingly
         for enemy in range(self.count_l, self.count):
             if self.codes[enemy] is not None:
                 if self.codes[enemy].lives <= 0:
                     self.erase(enemy, 1, self.codes[enemy].i, self.codes[enemy].j)
                     self.count_l += 1
 
-        # Checks if player is alive and updates accordingly
+        # > Checks if player is alive and updates accordingly
         if self.player.lives < l:
             return -1
 
-        print(self.player.j)
+        # Crossed game level
         if self.player.j >= 400:
             return 1
 
@@ -109,15 +117,19 @@ class Game:
         Creates an enemy
         '''
 
-        if(random() < 0.01):
-            lj = self.screen.offset + 90 + randrange(10)
+        if(random() < configs.PROB_ENEMY):
+            lj = self.screen.offset + configs.DIM_J - randrange(10)
             li = 1
             mush = Enemy(self, self.count, li, lj)
             self.screen.position(mush)
             self.codes[self.count] = mush
             self.count += 1
 
-    def erase(self, obj, dir, pi, pj):
+    def erase(self, objn, dir, pi, pj):
+        '''
+        Recursively erases all elements of type objn in direct contact
+        '''
+
         if dir == 1:
             i = pi
             j = pj + 1
@@ -131,13 +143,13 @@ class Game:
             i = pi + 1
             j = pj
 
-        if i == 36 or i == -1:
+        if i >= 36 or i <= -1:
             return
 
-        if self.screen.map[i,j] == obj:
+        if self.screen.map[i,j] == objn:
             self.screen.add(Back(), i, i+1, j, j+1)
             for k in range(1,5):
-                self.erase(obj, k, i, j)
+                self.erase(objn, k, i, j)
 
     def delete(self):
         pass
@@ -168,6 +180,7 @@ class Game:
         return timer()
 
     def headline(self):
-        print('TIME LEFT: ' + str(self.getTRemain()//1))
-        print('LIVES LEFT: ' + str(self.player.lives))
+        print('Level: ' + str(self.level) +
+        '\t\u23f1 : ' + str(self.getTRemain()//1) +
+        '\t\u2661 : ' + str(self.player.lives))
         print('POINTS: ' + str(self.points))

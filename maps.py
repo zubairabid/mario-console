@@ -6,7 +6,7 @@ def genlevel(num):
 
 
 
-    map.append([32, 0, 4, 600, 6]) # a floor
+    map.append([32, 0, 4, 500, 6]) # a floor
 
     # Adding pipe
     for j in range(30, 400):
