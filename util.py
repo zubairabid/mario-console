@@ -1,3 +1,10 @@
+'''
+File containing utility functions for assorted purposes.
+Functions include:
+    clearing screen
+    taking non-blocking keypresses
+'''
+
 import sys
 import select
 import tty
@@ -13,22 +20,21 @@ def clear():
     sp.call('clear', shell=True)
 
 
-def keypress(c):
-    # q/Q
-    if c == '\x51' or c == '\x71':
+def keypress(keyin):
+    '''
+    Identifies which key was pressed
+    '''
+
+    if keyin in ('Q', 'q'):
         return -1
-
-    # d/D
-    elif c == '\x44' or c == '\x64':
+    if keyin in ('D', 'd'):
         return 1
-
-    # a/A
-    elif c == '\x41' or c == '\x61':
+    if keyin in ('A', 'a'):
         return 2
-
-    # w/W
-    elif c == '\x57' or c == '\x77':
+    if keyin in ('W', 'w'):
         return 3
+
+    return 0
 
 
 class NBInput:

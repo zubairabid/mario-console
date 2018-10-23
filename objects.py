@@ -1,3 +1,8 @@
+'''
+File defining basic non-background object classes
+'''
+
+
 class Generic:
     '''
     Every object in the game inherits from here.
@@ -7,9 +12,15 @@ class Generic:
         pass
 
     def getSize(self):
+        '''
+        Generic
+        '''
         pass
 
     def getLoc(self):
+        '''
+        Generic
+        '''
         pass
 
 

@@ -1,3 +1,7 @@
+'''
+File defining basic game configurations
+'''
+
 MAX_LIFE = 3
 
 STD_TIME = 100

@@ -1,14 +1,19 @@
+'''
+File managing the screen: printing, adding to a map, loading map. etc.
+'''
+
 import numpy as np
 from colorama import Fore, Back, Style
 
-import time
-
 import maps
-
 import configs
 
 
 class Screen:
+    '''
+    An object of class represents a single screen
+    Contains helper functions to carry out simple operations based on screen.
+    '''
 
     def __init__(self, dim_i, dim_j, level, game):
         '''
@@ -19,7 +24,7 @@ class Screen:
 
         # Set up map
         self.map = np.array([[0 for col in range(configs.MAX_J)]
-                            for row in range(dim_i)])
+                             for row in range(dim_i)])
         self.loadMap(level)
 
         # offset from where map starts displaying on screen

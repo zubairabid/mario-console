@@ -1,7 +1,10 @@
-import configs
+'''
+File defining basic map generation rules and functions
+'''
 
 from random import random
-from random import randrange
+
+import configs
 
 
 def genlevel(num):

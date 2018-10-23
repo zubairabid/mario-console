@@ -1,3 +1,7 @@
+'''
+Main file of execution
+'''
+
 from util import NBInput
 from util import clear
 from util import keypress
@@ -35,14 +39,14 @@ if __name__ == "__main__":
         # clear screen and enable non blocking input
         clear()
         keys.nbTerm()
-        level = 0
+        LEVEL = 0
 
         print("Choose level you want to play:\n0\t1\t2")
-        level = int(keys.getCh())
+        LEVEL = int(keys.getCh())
 
-        if level > 2 or level < 0:
+        if LEVEL > 2 or LEVEL < 0:
             print('Choice out of bounds. Resetting to 0')
-            level = 0
+            LEVEL = 0
 
         # Start a new Game with level
         # the screen used is a property of the game object
@@ -52,10 +56,10 @@ if __name__ == "__main__":
         points = 0
 
         while lives > 0:
-            game = Game(level, configs.STD_TIME, lives)
+            game = Game(LEVEL, configs.STD_TIME, lives)
 
             # Level screen
-            game.levelScreen(level, lives, points)
+            game.levelScreen(LEVEL, lives, points)
             keys.flush()
             keys.getCh()
 
@@ -90,7 +94,7 @@ if __name__ == "__main__":
                 keys.flush()
 
                 # Maintains some sort of framerate
-                while(frame - game.getTRemain() < 0.1):
+                while frame - game.getTRemain() < 0.1:
                     continue
 
             # Game quit
@@ -99,11 +103,11 @@ if __name__ == "__main__":
             # Level up
             if status == 1:
                 status = 0
-                level += 1
+                LEVEL += 1
                 points += game.points + game.getTRemain()//1
                 continue
 
-            if level >= 3:
+            if LEVEL >= 3:
                 break
 
             # If here, death has happened.

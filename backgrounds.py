@@ -1,8 +1,11 @@
+'''
+File defining basic Background object classes
+'''
+
 from objects import Generic
-from colorama import Fore, Back, Style
 
 
-class Back(Generic):
+class Background(Generic):
     '''
     Defines the background, aka Sky
     '''
@@ -12,7 +15,7 @@ class Back(Generic):
         self.code = 0
 
 
-class Cloud(Back):
+class Cloud(Background):
     '''
     Defines Clouds
     '''

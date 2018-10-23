@@ -1,11 +1,13 @@
+'''
+File defining basic "People" (moving object) classes
+'''
+
 import configs
 
 from objects import Generic
 from objects import Brick
 
-import backgrounds as back
-
-from colorama import Fore, Back, Style
+from backgrounds import Background
 
 
 class Person(Generic):
@@ -118,7 +120,7 @@ class Person(Generic):
                 del_j = self.j-1
                 add_j = self.j-1+self.getSize()[1]
 
-                self.game.screen.add(back.Back(), f_i, t_i, del_j-1, del_j)
+                self.game.screen.add(Background(), f_i, t_i, del_j-1, del_j)
                 self.game.screen.add(self, f_i, t_i, add_j-1, add_j)
 
         # a, go left
@@ -134,7 +136,7 @@ class Person(Generic):
                 add_j = self.j-1
                 del_j = self.j-1+self.getSize()[1]
 
-                self.game.screen.add(back.Back(), f_i, t_i, del_j, del_j+1)
+                self.game.screen.add(Background(), f_i, t_i, del_j, del_j+1)
                 self.game.screen.add(self, f_i, t_i, add_j, add_j+1)
 
         # w, go up
@@ -167,7 +169,7 @@ class Person(Generic):
                 del_i = self.i+1
                 add_i = self.i+1-self.getSize()[0]
 
-                self.game.screen.add(back.Back(), del_i, del_i+1, f_j, t_j)
+                self.game.screen.add(Background(), del_i, del_i+1, f_j, t_j)
                 self.game.screen.add(self, add_i, add_i+1, f_j, t_j)
             else:
                 self.jstate = 0
@@ -184,7 +186,7 @@ class Person(Generic):
                 add_i = self.i+1
                 del_i = self.i+1-self.getSize()[0]
 
-                self.game.screen.add(back.Back(), del_i-1, del_i, f_j, t_j)
+                self.game.screen.add(Background(), del_i-1, del_i, f_j, t_j)
                 self.game.screen.add(self, add_i-1, add_i, f_j, t_j)
             else:
                 self.jstate = 0
@@ -207,10 +209,13 @@ class Mario(Person):
         self.lives = lives
 
     def resize(self, size):
+        '''
+        Changes mario's size
+        '''
         # small
         if size == 0:
             self.s_i = 3
-            self.game.screen.add(back.Back(), self.i-3, self.i-2, self.j-1,
+            self.game.screen.add(Background(), self.i-3, self.i-2, self.j-1,
                                  self.j+2)
             self.maxj = 7
         # large
@@ -274,6 +279,9 @@ class Mario(Person):
 
 
 class Enemy(Person):
+    '''
+    Class enemy, makes some modifications to behaviour
+    '''
 
     def __init__(self, game, code, i, j):
         super().__init__(game, i, j, 1, 3)
