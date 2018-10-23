@@ -2,6 +2,11 @@
 File with functionality for managing individual gamestates
 '''
 
+from time import monotonic as timer
+
+from random import random
+from random import randrange
+
 from util import clear
 
 import configs
@@ -13,16 +18,9 @@ from objects import Brick
 from people import Mario
 from people import Enemy
 from people import Boss
-from people import PowerUp
 
 from backgrounds import Background
 from backgrounds import Cloud
-
-import time
-from time import monotonic as timer
-
-from random import random
-from random import randrange
 
 
 class Game:
@@ -129,7 +127,7 @@ class Game:
         Creates an enemy
         '''
 
-        if(random() < configs.PROB_ENEMY):
+        if random() < configs.PROB_ENEMY:
             lj = self.screen.offset + configs.DIM_J - randrange(10)
             li = 1
             mush = Enemy(self, self.count, li, lj)
@@ -169,6 +167,9 @@ class Game:
                 self.erase(objn, k, i, j)
 
     def delete(self):
+        '''
+        compatibility
+        '''
         pass
 
     def repaint(self):
@@ -199,10 +200,19 @@ class Game:
         print("Press any key to continue")
 
     def getTRemain(self):
+        '''
+        returns the time remaining for a game
+        '''
         return self.etime - timer()
 
     def getTPast(self):
+        '''
+        returns the time elapsed in a game
+        '''
         return timer() - self.stime
 
     def getTime(self):
+        '''
+        returns the current time
+        '''
         return timer()
