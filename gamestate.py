@@ -47,6 +47,8 @@ class Game:
         self.codes = [Background(), Cloud(), None, None, None, self.player, Brick()]
         for temp in range(1000):
             self.codes.append(None)
+            temp += 1
+            temp -= 1
 
         self.screen.position(self.player)
 
@@ -128,9 +130,9 @@ class Game:
         '''
 
         if random() < configs.PROB_ENEMY:
-            lj = self.screen.offset + configs.DIM_J - randrange(10)
-            li = 1
-            mush = Enemy(self, self.count, li, lj)
+            copy_j = self.screen.offset + configs.DIM_J - randrange(10)
+            copy_i = 1
+            mush = Enemy(self, self.count, copy_i, copy_j)
             self.screen.position(mush)
             self.codes[self.count] = mush
             self.count += 1
@@ -140,23 +142,23 @@ class Game:
             self.screen.position(boss)
             self.codes[999] = boss
 
-    def erase(self, objn, dir, pi, pj):
+    def erase(self, objn, dir, copy_i, copy_j):
         '''
         Recursively erases all elements of type objn in direct contact
         '''
 
         if dir == 1:
-            i = pi
-            j = pj + 1
+            i = copy_i
+            j = copy_j + 1
         elif dir == 2:
-            i = pi
-            j = pj - 1
+            i = copy_i
+            j = copy_j - 1
         elif dir == 3:
-            i = pi - 1
-            j = pj
+            i = copy_i - 1
+            j = copy_j
         elif dir == 4:
-            i = pi + 1
-            j = pj
+            i = copy_i + 1
+            j = copy_j
 
         if i >= 36 or i <= -1:
             return
