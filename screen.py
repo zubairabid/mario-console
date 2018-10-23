@@ -95,7 +95,7 @@ class Screen:
 
                 # Mario
                 if i[j] == 5:
-                    if trackc == 0 or trackc == 2:
+                    if trackc in (0, 2):
                         char = 'O'
                     else:
                         char = '|'
