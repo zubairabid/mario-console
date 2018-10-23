@@ -7,6 +7,7 @@ import maps
 
 import configs
 
+
 class Screen:
 
     def __init__(self, dim_i, dim_j, level, game):

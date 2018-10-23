@@ -29,10 +29,10 @@ def genlevel(num):
         coins = 0.03
 
     if num == 2:
-        pipes = 0.05
-        gaps = 0.03
-        pipegap = 0.6
-        platform1 = 0.05
+        pipes = 0.03
+        gaps = 0.01
+        pipegap = 0.01
+        platform1 = 0.03
 
     # a floor
     map.append([32, 0, 4, configs.MAX_J - 100, 6])
