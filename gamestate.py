@@ -19,7 +19,7 @@ from people import Mario
 from people import Enemy
 from people import Boss
 
-from backgrounds import Background
+from backgrounds import Background as Backg
 from backgrounds import Cloud
 
 
@@ -44,7 +44,7 @@ class Game:
 
         # 0: Back, 1: Cloud (Back) ...  5. Mario, 6. Brick, 7. PowerUp
 
-        self.codes = [Background(), Cloud(), None, None, None, self.player, Brick()]
+        self.codes = [Backg(), Cloud(), None, None, None, self.player, Brick()]
         for temp in range(1000):
             self.codes.append(None)
             temp += 1
@@ -164,7 +164,7 @@ class Game:
             return
 
         if self.screen.map[i, j] == objn:
-            self.screen.add(Background(), i, i+1, j, j+1)
+            self.screen.add(Backg(), i, i+1, j, j+1)
             for k in range(1, 5):
                 self.erase(objn, k, i, j)
 
