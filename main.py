@@ -36,11 +36,11 @@ if __name__ == "__main__":
 
         # clear screen and enable non blocking INPUT
         clear()
-        KEYS.nbTerm()
+        KEYS.nb_term()
         LEVEL = 0
 
         print("Choose level you want to play:\n0\t1\t2")
-        LEVEL = int(KEYS.getCh())
+        LEVEL = int(KEYS.get_ch())
 
         if LEVEL > 2 or LEVEL < 0:
             print('Choice out of bounds. Resetting to 0')
@@ -59,7 +59,7 @@ if __name__ == "__main__":
             # Level screen
             GAME.levelScreen(LEVEL, LIVES, POINTS)
             KEYS.flush()
-            KEYS.getCh()
+            KEYS.get_ch()
 
             # Game loop executes as time remains
             while GAME.getTRemain() > 0:
@@ -74,8 +74,8 @@ if __name__ == "__main__":
 
                 # poll for INPUT
                 INPUT = ''
-                if KEYS.kbHit():
-                    INPUT = KEYS.getCh()
+                if KEYS.kb_hit():
+                    INPUT = KEYS.get_ch()
 
                 # process INPUT
                 CIN = keypress(INPUT)
@@ -118,6 +118,6 @@ if __name__ == "__main__":
               "\nPress any key to exit")
 
         KEYS.flush()
-        KEYS.getCh()
+        KEYS.get_ch()
         # Switch back to the original terminal state
-        KEYS.orTerm()
+        KEYS.or_term()

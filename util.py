@@ -50,25 +50,25 @@ class NBInput:
         '''
         self.old_settings = termios.tcgetattr(sys.stdin)
 
-    def nbTerm(self):
+    def nb_term(self):
         '''
         Sets up the terminal for non-blocking input
         '''
         tty.setcbreak(sys.stdin.fileno())
 
-    def orTerm(self):
+    def or_term(self):
         '''
         Sets terminal back to original state
         '''
         termios.tcsetattr(sys.stdin, termios.TCSADRAIN, self.old_settings)
 
-    def kbHit(self):
+    def kb_hit(self):
         '''
         returns True if keypress has occured
         '''
         return select.select([sys.stdin], [], [], 0) == ([sys.stdin], [], [])
 
-    def getCh(self):
+    def get_ch(self):
         '''
         returns input character
         '''
