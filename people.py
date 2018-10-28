@@ -19,7 +19,7 @@ class Person(Generic):
         Parent game
         Lives
     Functionality provided includes:
-        getLoc() returns location
+        get_loc() returns location
         get_size() returns size (default: 1,1)
         collison(dir) returns (collision val, co-ordinates) in direction dir
         move(dir) moves the object by 1 in dir
@@ -52,7 +52,7 @@ class Person(Generic):
 
         self.lives = 1
 
-    def getLoc(self):
+    def get_loc(self):
         return (self.i, self.j)
 
     def get_size(self):

@@ -17,7 +17,7 @@ class Generic:
         '''
         pass
 
-    def getLoc(self):
+    def get_loc(self):
         '''
         Generic
         '''

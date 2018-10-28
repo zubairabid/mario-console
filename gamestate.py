@@ -76,7 +76,7 @@ class Game:
         self.player.move(keypress)
 
         # Update background (right/left)
-        if self.player.getLoc()[1] > self.screen.offset + configs.OFFSTRAIGHT:
+        if self.player.get_loc()[1] > self.screen.offset + configs.OFFSTRAIGHT:
             self.screen.offset += 1
 
         # Generate any enemies
