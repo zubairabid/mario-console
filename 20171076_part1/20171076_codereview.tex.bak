@@ -1,0 +1,78 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{fontspec}
+\defaultfontfeatures{Mapping=tex-text}
+\usepackage{xunicode}
+\usepackage{xltxtra}
+%\setmainfont{???}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[left=1cm,right=1cm,top=2cm,bottom=2cm]{geometry}
+
+\usepackage[document]{ragged2e}
+
+\usepackage[table,xcdraw]{xcolor}
+\usepackage{booktabs}
+\usepackage{float}
+
+\font\serif="FreeSerif:script=beng"
+\font\bg="FreeSerif:script=beng" at 13pt
+
+\usepackage{xcolor}
+\definecolor{hlit}{rgb}{0.5,0,1}
+\definecolor{diff}{rgb}{0.1,0.1,0.5}
+\definecolor{rlit}{rgb}{1,0,0}
+
+\title{SSAD Assignment 3 - Code Review}
+\author{Zubair Abid, 20171076}
+\date{}
+
+\begin{document}
+	\maketitle
+	Code Review of the Assignment: \textbf{Mario}\\
+    \begin{enumerate}
+    	\item Number of Lines Reviewed: \textbf{1159}
+    	
+    	\item Number of Classes: \textbf{16}
+    	
+    	\item Number of Methods: \textbf{52}
+    	
+    	\item Number of Bugs Identified: \textbf{2}
+    	
+    	\item Number of Code Smells Identified: \textbf{100}
+    \end{enumerate}
+	$ $\\
+	
+	\section{Bugs}	
+	Major/Minor bugs found and fixed	
+
+	\begin{table}[H]
+		\centering
+		\begin{tabular}{@{}clc@{}}
+			\toprule
+			\textbf{Bug Number} & \multicolumn{1}{c}{\textbf{Short Description}} & \textbf{Status} \\ \midrule
+			\textit{\#1} & Player can play Levels 3+,  although only levels 1-2 are defined & Fixed \\
+			\textit{\#2} & Game crashes on non-numeric input during level selection & Fixed \\ \bottomrule
+		\end{tabular}
+	\end{table}
+
+	\section{Code Smells}
+	Code Smells found and fixed	
+		
+	\begin{table}[H]
+		\centering
+		\begin{tabular}{p{4cm}p{11cm}}
+			\toprule
+			\textbf{Code Smell} & \multicolumn{1}{c}{\textbf{Short Description}}\\ \midrule
+			Comments & Missing Docstrings, unnecessary comments, lack of required commenting in
+						parts of the file \\
+			Long Method & maps.genlevel() is too long; gamestate.change\_ state() is too long \\ 
+			Long Parameter List &  \\ 
+			Long Class & \\ 
+			Middle Man & Thing is a wrapper class and has no functionality \\ 
+			Indecent Exposure & \\ \bottomrule
+		\end{tabular}
+	\end{table}
+	
+\end{document}
