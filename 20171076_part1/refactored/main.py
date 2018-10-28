@@ -2,7 +2,7 @@
 Main file of execution
 '''
 
-import time
+import time, sys
 
 from colorama import init
 
@@ -21,7 +21,7 @@ if __name__ == "__main__":
 
     # sets up keyboard INPUT
     KEYS = NBInput()
-
+    playedflag = True
     ##########################
     # Set up the environment #
     ##########################
@@ -37,11 +37,19 @@ if __name__ == "__main__":
         LEVEL = 0
 
         print("Choose level you want to play:\n0\t1\t2")
-        LEVEL = int(KEYS.get_ch())
+        try:
+            LEVEL = int(KEYS.get_ch())
+        except:
+            playedflag = False
+            print("An error occured (Faulty Input). Please enter only numbers")
+            KEYS.get_ch()
+            sys.exit(0)
 
         if LEVEL > 2 or LEVEL < 0:
-            print('Choice out of bounds. Resetting to 0')
-            LEVEL = 0
+            playedflag = False
+            print('Choice out of bounds. Press any key to continue')
+            KEYS.get_ch()
+            sys.exit(0)
 
         # Start a new Game with level
         # the screen used is a property of the game object
@@ -100,20 +108,20 @@ if __name__ == "__main__":
                 STATUS = 0
                 LEVEL += 1
                 POINTS += GAME.points + GAME.get_t_remain()//1
-                continue
+                if LEVEL >= 3:
+                    sys.exit(0)
 
-            if LEVEL >= 3:
-                break
+                continue
 
             # If here, death has happened.
             LIVES -= 1
 
     finally:
-        time.sleep(0.5)
         clear()
-        print("GAME OVER. Final points: " + str(POINTS) +
-              "\nPress any key to exit")
+        if playedflag:
+            print("GAME OVER. Final points: " + str(POINTS))
 
+        print("Press any key to exit")
         KEYS.flush()
         KEYS.get_ch()
         # Switch back to the original terminal state
