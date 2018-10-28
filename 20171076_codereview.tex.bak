@@ -30,7 +30,7 @@
 
 \begin{document}
 	\maketitle
-	Code Review of the Assignment:\\
+	Code Review of the Assignment: \textbf{Mario}\\
     \begin{enumerate}
     	\item Number of Lines Reviewed: \textbf{1159}
     	
@@ -49,11 +49,11 @@
 
 	\begin{table}[H]
 		\centering
-		\begin{tabular}{@{}clc@{}}
+		\begin{tabular}{p{4cm}p{7cm}{4cm}}
 			\toprule
 			\textbf{Bug Number} & \multicolumn{1}{c}{\textbf{Short Description}} & \textbf{Status} \\ \midrule
-			\textit{\#1} & Player can play Levels 3+,  although only levels 1-2 are defined & Not Fixed \\
-			\textit{\#2} & Game crashes on non-numeric input duting level selection & Not Fixed \\ \bottomrule
+			\textit{\#1} & Player can play Levels 3+,  although only levels 1-2 are defined & Fixed \\
+			\textit{\#2} & Game crashes on non-numeric input during level selection & Fixed \\ \bottomrule
 		\end{tabular}
 	\end{table}
 
@@ -62,11 +62,14 @@
 		
 	\begin{table}[H]
 		\centering
-		\begin{tabular}{@{}clc@{}}
+		\begin{tabular}{p{4cm}p{11cm}}
 			\toprule
 			\textbf{Code Smell} & \multicolumn{1}{c}{\textbf{Short Description}}\\ \midrule
-			\textit{\#1} & Player can play Levels 3+,  although only levels 1-2 are defined \\
-			\textit{\#2} & Game crashes on non-numeric input duting level selection \\ \bottomrule
+			Comments & Missing Docstrings, unnecessary comments, lack of required commenting in
+						parts of the file \\
+			Long Method & maps.genlevel() is too long, and can be reduced by removing some of the branching/configuration statements gamestate.change_state() is a very long function with too many branches \\ 
+			Long Parameter List &  \\ 
+			Long Class & \\ \bottomrule
 		\end{tabular}
 	\end{table}
 	
