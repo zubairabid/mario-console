@@ -25,7 +25,7 @@ class Screen:
         # Set up map
         self.gmap = np.array([[0 for col in range(configs.MAX_J)]
                               for row in range(dim_i)])
-        self.loadMap(level)
+        self.load_map(level)
 
         # offset from where map starts displaying on screen
         self.offset = 0
@@ -34,7 +34,7 @@ class Screen:
         self.dim_i = dim_i
         self.dim_j = dim_j
 
-    def loadMap(self, level):
+    def load_map(self, level):
         '''
         Calls the random map generator to get a map for level specified
         '''

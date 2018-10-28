@@ -142,21 +142,21 @@ class Game:
             self.screen.position(boss)
             self.codes[999] = boss
 
-    def erase(self, objn, dir, copy_i, copy_j):
+    def erase(self, objn, direct, copy_i, copy_j):
         '''
         Recursively erases all elements of type objn in direct contact
         '''
 
-        if dir == 1:
+        if direct == 1:
             i = copy_i
             j = copy_j + 1
-        elif dir == 2:
+        elif direct == 2:
             i = copy_i
             j = copy_j - 1
-        elif dir == 3:
+        elif direct == 3:
             i = copy_i - 1
             j = copy_j
-        elif dir == 4:
+        elif direct == 4:
             i = copy_i + 1
             j = copy_j
 
