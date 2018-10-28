@@ -15,9 +15,6 @@ from gamestate import Game
 import configs
 
 if __name__ == "__main__":
-    '''
-    game loop, environment setup, etc. happens here
-    '''
 
     # setting up Colorama
     init()

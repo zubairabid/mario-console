@@ -163,7 +163,7 @@ class Game:
         if i >= 36 or i <= -1:
             return
 
-        if self.screen.map[i, j] == objn:
+        if self.screen.gmap[i, j] == objn:
             self.screen.add(Backg(), i, i+1, j, j+1)
             for k in range(1, 5):
                 self.erase(objn, k, i, j)

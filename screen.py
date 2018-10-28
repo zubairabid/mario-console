@@ -23,7 +23,7 @@ class Screen:
         self.game = game
 
         # Set up map
-        self.map = np.array([[0 for col in range(configs.MAX_J)]
+        self.gmap = np.array([[0 for col in range(configs.MAX_J)]
                              for row in range(dim_i)])
         self.loadMap(level)
 
@@ -44,7 +44,7 @@ class Screen:
             vh = component[2]
             hst = component[1]
             hh = component[3]
-            self.map[vst:vst + vh, hst:hst + hh] = component[4]
+            self.gmap[vst:vst + vh, hst:hst + hh] = component[4]
 
     def position(self, obj):
         '''
@@ -58,13 +58,13 @@ class Screen:
         from_j = obj.j-1
         to_j = obj.j-1+size[1]
 
-        self.map[from_i:to_i, from_j:to_j] = obj.code
+        self.gmap[from_i:to_i, from_j:to_j] = obj.code
 
     def add(self, obj, from_i, to_i, from_j, to_j):
         '''
         Places obj.code within range specified
         '''
-        self.map[from_i:to_i, from_j:to_j] = obj.code
+        self.gmap[from_i:to_i, from_j:to_j] = obj.code
 
     def render(self):
         '''
@@ -80,7 +80,7 @@ class Screen:
             sky = Back.BLACK
             brick = Back.MAGENTA
 
-        for i in self.map:
+        for i in self.gmap:
             for j in range(self.offset, self.offset + self.dim_j):
 
                 char = ''

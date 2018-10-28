@@ -71,19 +71,19 @@ class Person(Generic):
         # Direction: right
         if dir == 1:
             for i in range(self.i+1-self.get_size()[0], self.i+1):
-                if self.game.screen.map[i, self.j + self.get_size()[1]-1] >= 5:
+                if self.game.screen.gmap[i, self.j + self.get_size()[1]-1] >= 5:
                     return (True, (i, self.j + self.get_size()[1]-1))
 
         # Direction: left
         elif dir == 2:
             for i in range(self.i + 1 - self.get_size()[0], self.i + 1):
-                if self.game.screen.map[i, self.j - 2] >= 5:
+                if self.game.screen.gmap[i, self.j - 2] >= 5:
                     return (True, (i, self.j - 2))
 
         # Direction: up
         elif dir == 3:
             for j in range(self.j - 1, self.j - 1 + self.get_size()[1]):
-                if self.game.screen.map[self.i - self.get_size()[0], j] >= 5:
+                if self.game.screen.gmap[self.i - self.get_size()[0], j] >= 5:
                     return (True, (self.i - self.get_size()[0], j))
 
         # Direction: down
@@ -95,7 +95,7 @@ class Person(Generic):
                 return True, (0, 0)
 
             for j in range(self.j - 1, self.j - 1 + self.get_size()[1]):
-                if self.game.screen.map[self.i + 1, j] >= 5:
+                if self.game.screen.gmap[self.i + 1, j] >= 5:
                     return (True, (self.i + 1, j))
 
         return (False, (0, 0))
@@ -231,7 +231,7 @@ class Mario(Person):
         '''
 
         contact = super().collision(dir)
-        obj = self.game.screen.map[contact[1][0], contact[1][1]]
+        obj = self.game.screen.gmap[contact[1][0], contact[1][1]]
 
         if contact:
 
@@ -305,7 +305,7 @@ class Enemy(Person):
         contact = super().collision(dir)
 
         if contact:
-            obj = self.game.screen.map[contact[1][0], contact[1][1]]
+            obj = self.game.screen.gmap[contact[1][0], contact[1][1]]
             if obj == 5:
                 if self.game.codes[5].get_size()[0] == 4:
                     self.game.codes[5].resize(0)
@@ -345,7 +345,7 @@ class Boss(Person):
         Doesn't check for other collisions. Kills them all
         '''
         contact = super().collision(dir)
-        obj = self.game.screen.map[contact[1][0], contact[1][1]]
+        obj = self.game.screen.gmap[contact[1][0], contact[1][1]]
 
         if obj == 5:
             self.game.codes[obj].lives -= 1
