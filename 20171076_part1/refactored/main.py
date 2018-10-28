@@ -54,17 +54,17 @@ if __name__ == "__main__":
             GAME = Game(LEVEL, configs.STD_TIME, LIVES)
 
             # Level screen
-            GAME.levelScreen(LEVEL, LIVES, POINTS)
+            GAME.level_screen(LEVEL, LIVES, POINTS)
             KEYS.flush()
             KEYS.get_ch()
 
             # Game loop executes as time remains
-            while GAME.getTRemain() > 0:
+            while GAME.get_t_remain() > 0:
 
                 # FRAME stores the time remaining at the start of rendering
                 # a frame, so as to calculate how long actually rendering it
                 # took, and to maintain a framerate
-                FRAME = GAME.getTRemain()
+                FRAME = GAME.get_t_remain()
 
                 # repaint screen
                 GAME.repaint()
@@ -81,7 +81,7 @@ if __name__ == "__main__":
                     break
 
                 # run game mechanics for each cycle
-                STATUS = GAME.changeState(CIN)
+                STATUS = GAME.change_state(CIN)
                 if STATUS != 0:
                     break
 
@@ -89,7 +89,7 @@ if __name__ == "__main__":
                 KEYS.flush()
 
                 # Maintains some sort of framerate
-                while FRAME - GAME.getTRemain() < 0.1:
+                while FRAME - GAME.get_t_remain() < 0.1:
                     continue
 
             # Game quit
@@ -99,7 +99,7 @@ if __name__ == "__main__":
             if STATUS == 1:
                 STATUS = 0
                 LEVEL += 1
-                POINTS += GAME.points + GAME.getTRemain()//1
+                POINTS += GAME.points + GAME.get_t_remain()//1
                 continue
 
             if LEVEL >= 3:

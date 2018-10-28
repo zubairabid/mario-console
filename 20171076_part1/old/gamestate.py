@@ -1,12 +1,3 @@
-'''
-File with functionality for managing individual gamestates
-'''
-
-from time import monotonic as timer
-
-from random import random
-from random import randrange
-
 from util import clear
 
 import configs
@@ -18,9 +9,16 @@ from objects import Brick
 from people import Mario
 from people import Enemy
 from people import Boss
+from people import PowerUp
 
-from backgrounds import Background as Backg
+from backgrounds import Back
 from backgrounds import Cloud
+
+import time
+from time import monotonic as timer
+
+from random import random
+from random import randrange
 
 
 class Game:
@@ -44,11 +42,9 @@ class Game:
 
         # 0: Back, 1: Cloud (Back) ...  5. Mario, 6. Brick, 7. PowerUp
 
-        self.codes = [Backg(), Cloud(), None, None, None, self.player, Brick()]
+        self.codes = [Back(), Cloud(), None, None, None, self.player, Brick()]
         for temp in range(1000):
             self.codes.append(None)
-            temp += 1
-            temp -= 1
 
         self.screen.position(self.player)
 
@@ -76,7 +72,7 @@ class Game:
         self.player.move(keypress)
 
         # Update background (right/left)
-        if self.player.get_loc()[1] > self.screen.offset + configs.OFFSTRAIGHT:
+        if self.player.getLoc()[1] > self.screen.offset + configs.OFFSTRAIGHT:
             self.screen.offset += 1
 
         # Generate any enemies
@@ -129,10 +125,10 @@ class Game:
         Creates an enemy
         '''
 
-        if random() < configs.PROB_ENEMY:
-            copy_j = self.screen.offset + configs.DIM_J - randrange(10)
-            copy_i = 1
-            mush = Enemy(self, self.count, copy_i, copy_j)
+        if(random() < configs.PROB_ENEMY):
+            lj = self.screen.offset + configs.DIM_J - randrange(10)
+            li = 1
+            mush = Enemy(self, self.count, li, lj)
             self.screen.position(mush)
             self.codes[self.count] = mush
             self.count += 1
@@ -142,36 +138,33 @@ class Game:
             self.screen.position(boss)
             self.codes[999] = boss
 
-    def erase(self, objn, dir, copy_i, copy_j):
+    def erase(self, objn, dir, pi, pj):
         '''
         Recursively erases all elements of type objn in direct contact
         '''
 
         if dir == 1:
-            i = copy_i
-            j = copy_j + 1
+            i = pi
+            j = pj + 1
         elif dir == 2:
-            i = copy_i
-            j = copy_j - 1
+            i = pi
+            j = pj - 1
         elif dir == 3:
-            i = copy_i - 1
-            j = copy_j
+            i = pi - 1
+            j = pj
         elif dir == 4:
-            i = copy_i + 1
-            j = copy_j
+            i = pi + 1
+            j = pj
 
         if i >= 36 or i <= -1:
             return
 
-        if self.screen.gmap[i, j] == objn:
-            self.screen.add(Backg(), i, i+1, j, j+1)
+        if self.screen.map[i, j] == objn:
+            self.screen.add(Back(), i, i+1, j, j+1)
             for k in range(1, 5):
                 self.erase(objn, k, i, j)
 
     def delete(self):
-        '''
-        compatibility
-        '''
         pass
 
     def repaint(self):
@@ -202,19 +195,10 @@ class Game:
         print("Press any key to continue")
 
     def getTRemain(self):
-        '''
-        returns the time remaining for a game
-        '''
         return self.etime - timer()
 
     def getTPast(self):
-        '''
-        returns the time elapsed in a game
-        '''
         return timer() - self.stime
 
     def getTime(self):
-        '''
-        returns the current time
-        '''
         return timer()
