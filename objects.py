@@ -11,7 +11,7 @@ class Generic:
     def __init__(self):
         pass
 
-    def getSize(self):
+    def get_size(self):
         '''
         Generic
         '''

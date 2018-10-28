@@ -49,9 +49,9 @@ class Screen:
     def position(self, obj):
         '''
         Given an object, it places it on the map's[i,j] as defined by object's
-        i, j and getSize()
+        i, j and get_size()
         '''
-        size = obj.getSize()
+        size = obj.get_size()
 
         from_i = obj.i+1-size[0]
         to_i = obj.i+1

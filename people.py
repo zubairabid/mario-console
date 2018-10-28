@@ -20,7 +20,7 @@ class Person(Generic):
         Lives
     Functionality provided includes:
         getLoc() returns location
-        getSize() returns size (default: 1,1)
+        get_size() returns size (default: 1,1)
         collison(dir) returns (collision val, co-ordinates) in direction dir
         move(dir) moves the object by 1 in dir
         vertical() provides gravitational + jump functionality to the object
@@ -55,7 +55,7 @@ class Person(Generic):
     def getLoc(self):
         return (self.i, self.j)
 
-    def getSize(self):
+    def get_size(self):
         # Default size of a Person is set to 1,1 unless overridden
         return (self.s_i, self.s_j)
 
@@ -70,21 +70,21 @@ class Person(Generic):
 
         # Direction: right
         if dir == 1:
-            for i in range(self.i+1-self.getSize()[0], self.i+1):
-                if self.game.screen.map[i, self.j + self.getSize()[1]-1] >= 5:
-                    return (True, (i, self.j + self.getSize()[1]-1))
+            for i in range(self.i+1-self.get_size()[0], self.i+1):
+                if self.game.screen.map[i, self.j + self.get_size()[1]-1] >= 5:
+                    return (True, (i, self.j + self.get_size()[1]-1))
 
         # Direction: left
         elif dir == 2:
-            for i in range(self.i + 1 - self.getSize()[0], self.i + 1):
+            for i in range(self.i + 1 - self.get_size()[0], self.i + 1):
                 if self.game.screen.map[i, self.j - 2] >= 5:
                     return (True, (i, self.j - 2))
 
         # Direction: up
         elif dir == 3:
-            for j in range(self.j - 1, self.j - 1 + self.getSize()[1]):
-                if self.game.screen.map[self.i - self.getSize()[0], j] >= 5:
-                    return (True, (self.i - self.getSize()[0], j))
+            for j in range(self.j - 1, self.j - 1 + self.get_size()[1]):
+                if self.game.screen.map[self.i - self.get_size()[0], j] >= 5:
+                    return (True, (self.i - self.get_size()[0], j))
 
         # Direction: down
         elif dir == 4:
@@ -94,7 +94,7 @@ class Person(Generic):
                 self.lives -= 1
                 return True, (0, 0)
 
-            for j in range(self.j - 1, self.j - 1 + self.getSize()[1]):
+            for j in range(self.j - 1, self.j - 1 + self.get_size()[1]):
                 if self.game.screen.map[self.i + 1, j] >= 5:
                     return (True, (self.i + 1, j))
 
@@ -115,10 +115,10 @@ class Person(Generic):
 
                 # Delete the layer Person crossed, and add to the layer added
                 t_i = self.i+1
-                f_i = self.i+1-self.getSize()[0]
+                f_i = self.i+1-self.get_size()[0]
 
                 del_j = self.j-1
-                add_j = self.j-1+self.getSize()[1]
+                add_j = self.j-1+self.get_size()[1]
 
                 self.game.screen.add(Background(), f_i, t_i, del_j-1, del_j)
                 self.game.screen.add(self, f_i, t_i, add_j-1, add_j)
@@ -131,10 +131,10 @@ class Person(Generic):
 
                 # Delete the layer Person crossed, and add to the layer added
                 t_i = self.i+1
-                f_i = self.i+1-self.getSize()[0]
+                f_i = self.i+1-self.get_size()[0]
 
                 add_j = self.j-1
-                del_j = self.j-1+self.getSize()[1]
+                del_j = self.j-1+self.get_size()[1]
 
                 self.game.screen.add(Background(), f_i, t_i, del_j, del_j+1)
                 self.game.screen.add(self, f_i, t_i, add_j, add_j+1)
@@ -163,11 +163,11 @@ class Person(Generic):
                 self.i -= 1
 
                 # Delete the layer Person crossed, and add to the layer added
-                t_j = self.j+self.getSize()[1]-1
+                t_j = self.j+self.get_size()[1]-1
                 f_j = self.j-1
 
                 del_i = self.i+1
-                add_i = self.i+1-self.getSize()[0]
+                add_i = self.i+1-self.get_size()[0]
 
                 self.game.screen.add(Background(), del_i, del_i+1, f_j, t_j)
                 self.game.screen.add(self, add_i, add_i+1, f_j, t_j)
@@ -180,11 +180,11 @@ class Person(Generic):
                 self.i += 1
 
                 # Delete the layer Person crossed, and add to the layer added
-                t_j = self.j+self.getSize()[1]-1
+                t_j = self.j+self.get_size()[1]-1
                 f_j = self.j-1
 
                 add_i = self.i+1
-                del_i = self.i+1-self.getSize()[0]
+                del_i = self.i+1-self.get_size()[0]
 
                 self.game.screen.add(Background(), del_i-1, del_i, f_j, t_j)
                 self.game.screen.add(self, add_i-1, add_i, f_j, t_j)
@@ -236,7 +236,7 @@ class Mario(Person):
         if contact:
 
             # Collision with brick from below as large body
-            if obj == 6 and dir == 3 and self.getSize()[0] == 4:
+            if obj == 6 and dir == 3 and self.get_size()[0] == 4:
                 self.game.erase(obj, dir, contact[1][0], contact[1][1])
 
             # Collison with a PowerUp
@@ -270,7 +270,7 @@ class Mario(Person):
                         self.game.codes[obj].lives -= 1
                         self.game.points += configs.POINTS_ENMY
                 else:
-                    if self.getSize()[0] == 4:
+                    if self.get_size()[0] == 4:
                         self.resize(0)
                     else:
                         self.lives -= 1
@@ -307,7 +307,7 @@ class Enemy(Person):
         if contact:
             obj = self.game.screen.map[contact[1][0], contact[1][1]]
             if obj == 5:
-                if self.game.codes[5].getSize()[0] == 4:
+                if self.game.codes[5].get_size()[0] == 4:
                     self.game.codes[5].resize(0)
                 else:
                     self.game.codes[5].lives -= 1
@@ -372,5 +372,5 @@ class PowerUp(Person):
         self.i = i
         self.j = j
 
-    def getSize(self):
+    def get_size(self):
         return 2, 2
