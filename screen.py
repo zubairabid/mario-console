@@ -24,7 +24,7 @@ class Screen:
 
         # Set up map
         self.gmap = np.array([[0 for col in range(configs.MAX_J)]
-                             for row in range(dim_i)])
+                              for row in range(dim_i)])
         self.loadMap(level)
 
         # offset from where map starts displaying on screen

@@ -71,7 +71,7 @@ class Person(Generic):
         # Direction: right
         if dir == 1:
             for i in range(self.i+1-self.get_size()[0], self.i+1):
-                if self.game.screen.gmap[i, self.j + self.get_size()[1]-1] >= 5:
+                if self.game.screen.gmap[i, self.j+self.get_size()[1]-1] >= 5:
                     return (True, (i, self.j + self.get_size()[1]-1))
 
         # Direction: left
