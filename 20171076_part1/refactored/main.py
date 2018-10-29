@@ -2,7 +2,7 @@
 Main file of execution
 '''
 
-import time, sys
+import sys
 
 from colorama import init
 
@@ -21,7 +21,7 @@ if __name__ == "__main__":
 
     # sets up keyboard INPUT
     KEYS = NBInput()
-    playedflag = True
+    played_flag = True
     ##########################
     # Set up the environment #
     ##########################
@@ -40,13 +40,13 @@ if __name__ == "__main__":
         try:
             LEVEL = int(KEYS.get_ch())
         except:
-            playedflag = False
+            played_flag = False
             print("An error occured (Faulty Input). Please enter only numbers")
             KEYS.get_ch()
             sys.exit(0)
 
         if LEVEL > 2 or LEVEL < 0:
-            playedflag = False
+            played_flag = False
             print('Choice out of bounds. Press any key to continue')
             KEYS.get_ch()
             sys.exit(0)
@@ -118,7 +118,7 @@ if __name__ == "__main__":
 
     finally:
         clear()
-        if playedflag:
+        if played_flag:
             print("GAME OVER. Final points: " + str(POINTS))
 
         print("Press any key to exit")

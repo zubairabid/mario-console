@@ -22,7 +22,7 @@ Pylint installation: `pip install pylint`
 |background|10.00|
 |configs|10.00|
 |gamestate|9.82|
-|main|10.00|
+|main|9.42|
 |maps|9.74|
 |objects|9.55|
 |people|9.34|
