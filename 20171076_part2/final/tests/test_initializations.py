@@ -8,7 +8,7 @@ def test_game_init_with_proper_params():
     Checks for proper initialization of Game
     '''
 
-    GAME = Game(0, 100, 1)
+    GAME = Game(99, 100, 1)
     # Check time allocated is correct
     assert GAME.etime - GAME.stime == 100
     # Check for object inconsistencies
@@ -19,7 +19,7 @@ def test_mario_init_with_default_params():
     '''
     Check for proper initialization of Mario in default
     '''
-    GAME = Game(0, 100, 1)
+    GAME = Game(99, 100, 1)
 
     PLAYER_POS_I = GAME.player.i
     PLAYER_POS_J = GAME.player.j
@@ -33,7 +33,7 @@ def test_mario_init_with_default_params():
     test_mario_resize_to_large()
 
 def test_mario_resize_to_large():
-    GAME = Game(0, 100, 1)
+    GAME = Game(99, 100, 1)
 
     # Assert changes on resize
     GAME.player.resize(1)

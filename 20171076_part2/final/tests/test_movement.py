@@ -5,7 +5,7 @@ from testutil import mario_exists_in_bounds
 # As all the other movement functions due to Inheritance
 
 def test_mario_move_right():
-    GAME = Game(0, 100, 1)
+    GAME = Game(99, 100, 1)
     mario = GAME.player
     oldloc = mario.get_loc()
     mario.move(1)
@@ -16,7 +16,7 @@ def test_mario_move_right():
     mario_exists_in_bounds(GAME)
 
 def test_mario_move_left():
-    GAME = Game(0, 100, 1)
+    GAME = Game(99, 100, 1)
     mario = GAME.player
     oldloc = mario.get_loc()
     mario.move(2)
@@ -27,7 +27,7 @@ def test_mario_move_left():
     mario_exists_in_bounds(GAME)
 
 def test_mario_jump():
-    GAME = Game(0, 100, 1)
+    GAME = Game(99, 100, 1)
     mario = GAME.player
 
     mario.move(3)

@@ -38,6 +38,8 @@ class Screen:
         '''
         Calls the random map generator to get a map for level specified
         '''
+        if level == 99: # TEST
+            self.gmap[32:36, 0:configs.MAX_J-100] = 6
         print('Loading level ' + str(level))
         for component in maps.genlevel(level):
             vst = component[0]
