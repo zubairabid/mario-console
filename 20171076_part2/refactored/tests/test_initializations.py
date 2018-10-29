@@ -1,6 +1,8 @@
 from gamestate import Game
 from testutil import mario_exists_in_bounds
 
+# Tests are done on all objects with atomic initialization sequences
+
 def test_game_init_with_proper_params():
     '''
     Checks for proper initialization of Game

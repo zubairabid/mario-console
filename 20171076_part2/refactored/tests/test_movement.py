@@ -1,6 +1,9 @@
 from gamestate import Game
 from testutil import mario_exists_in_bounds
 
+# Tests are done only for the Mario class as it's the same template
+# As all the other movement functions due to Inheritance
+
 def test_mario_move_right():
     GAME = Game(0, 100, 1)
     mario = GAME.player
